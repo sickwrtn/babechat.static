@@ -13,7 +13,7 @@ function Search(){
   function onClick(){
     const babechat_api_url = import.meta.env.VITE_APP_BABECHAT_API_URL;
     console.log(babechat_api_url)
-    fetch(`http://13.209.93.198/search?q=${encodeURI(query)}&sort=popular&limit=10`)
+    fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(query)}&sort=popular&limit=10`)
       .then(res => res.json())
       .then((data: any)=>{setCharacterData(data.data);console.log(characterData)});
   }
