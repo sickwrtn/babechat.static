@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import './search.css'
-import { Line, LineChart, XAxis, YAxis, Tooltip } from 'recharts'
+import { Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react';
 
 interface dataSet{
@@ -36,7 +36,7 @@ function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=
     return result;
 }
 
-function dcdCheck(data: Array<any>){
+function dcdCheck(data: Array<any>,color: string){
     if (!data || data.length === 0) {
         return (
         <>
@@ -46,17 +46,19 @@ function dcdCheck(data: Array<any>){
     }
     return (
     <>
-        <LineChart width={500} height={300} data={data}>
-            <Tooltip />
-            <XAxis dataKey="label"/>
-            <YAxis domain={['auto', 'auto']} />
-            <Line type="monotone" dataKey="data" stroke="red" />
-        </LineChart>
+        <ResponsiveContainer height={300} width="100%">
+            <LineChart data={data}>
+                <Tooltip />
+                <XAxis dataKey="label"/>
+                <YAxis domain={['auto', 'auto']} />
+                <Line type="monotone" dataKey="data" stroke={color} />
+            </LineChart>
+        </ResponsiveContainer>
     </>
         )
 }
 
-function dataCheck(data: Array<any>,dataKey: string){
+function dataCheck(data: Array<any>,dataKey: string, color: string){
     if (!data || data.length === 0) {
         return (
         <>
@@ -66,12 +68,14 @@ function dataCheck(data: Array<any>,dataKey: string){
     }
     return (
     <>
-        <LineChart width={500} height={300} data={data}>
-            <Tooltip />
-            <XAxis dataKey="label"/>
-            <YAxis domain={['auto', 'auto']} />
-            <Line type="monotone" dataKey={dataKey} stroke="red" />
-        </LineChart>
+        <ResponsiveContainer height={300} width="100%">
+            <LineChart data={data}>
+                <Tooltip />
+                <XAxis dataKey="label"/>
+                <YAxis domain={['auto', 'auto']} />
+                <Line type="monotone" dataKey={dataKey} stroke={color} />
+            </LineChart>
+        </ResponsiveContainer>
     </>
         )
 }
@@ -92,35 +96,41 @@ function Statistics() {
     return (
     <>
         <div>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">채팅수</legend>
-                {dataCheck(data,"chatCount")}
+            <fieldset className="d-flex border p-3">
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">채팅수</legend>
+                    {dataCheck(data,"chatCount","blue")}
+                </div>
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">일일 채팅수 증가량</legend>
+                    {dcdCheck(dcd(data,(i,j)=>{
+                        return i[j+1].chatCount - i[j].chatCount;
+                    }),"blue")}
+                </div>
             </fieldset>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">일일 채팅수 증가량</legend>
-                {dcdCheck(dcd(data,(i,j)=>{
-                    return i[j+1].chatCount - i[j].chatCount;
-                }))}
+            <fieldset className="d-flex border p-3">
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">좋아요수</legend>
+                    {dataCheck(data,"likeCount","red")}
+                </div>
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
+                    {dcdCheck(dcd(data,(i,j)=>{
+                        return i[j+1].likeCount - i[j].likeCount;
+                    }),"red")}
+                </div>
             </fieldset>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">좋아요수</legend>
-                {dataCheck(data,"likeCount")}
-            </fieldset>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">일일 좋아요수 증가율</legend>
-                {dcdCheck(dcd(data,(i,j)=>{
-                    return i[j+1].likeCount - i[j].likeCount;
-                }))}
-            </fieldset>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">댓글수</legend>
-                {dataCheck(data,"commentCount")}
-            </fieldset>
-            <fieldset className="border p-3">
-                <legend className="h5 mb-3">일일 댓글수 증가율</legend>
-                {dcdCheck(dcd(data,(i,j)=>{
-                    return i[j+1].commentCount - i[j].commentCount;
-                }))}
+            <fieldset className="d-flex border p-3">
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">댓글수</legend>
+                    {dataCheck(data,"commentCount","yellow")}
+                </div>
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">일일 댓글수 증가량</legend>
+                    {dcdCheck(dcd(data,(i,j)=>{
+                        return i[j+1].commentCount - i[j].commentCount;
+                    }),"yellow")}
+                </div>
             </fieldset>
         </div>
     </>
