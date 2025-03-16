@@ -80,6 +80,9 @@ function Statistics() {
     const [data,setData] = useState(Array<dataSet>);
     const params = useParams();
     useEffect(()=>{
+        document.getElementById("logo")?.addEventListener('click',()=>{
+            window.location.href = "/";
+        })
         fetch(`https://babe-api.fastwrtn.com/character?charId=${params.charId}`)
         .then(res => res.json())
         .then((data: reponse<dataz>) => {

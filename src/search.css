@@ -21,6 +21,11 @@
     overflow: hidden;
 }
 
+.search-target{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
 .tag{
     width: 40%;
     border-radius: 20px;
@@ -32,6 +37,7 @@ body{
 }
 
 h1 {
+    margin-bottom: 2%;
     color: rgb(246 55 90);
     font-weight: 700;
 }
