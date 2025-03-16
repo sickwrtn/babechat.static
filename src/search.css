@@ -1,4 +1,5 @@
 .card-img-extra {
+    margin-top: 5%;
     height: 70% !important;
     width: 70% !important;
 }
@@ -20,16 +21,17 @@
     overflow: hidden;
 }
 
+.tag{
+    width: 40%;
+    border-radius: 20px;
+    background-color: gray;
+}
+
 body{
     margin: 10%;
 }
 
 h1 {
-    color: rgb(246 55 90);
-    font-weight: 700;
-}
-
-h2 {
     color: rgb(246 55 90);
     font-weight: 700;
 }
