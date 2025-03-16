@@ -49,7 +49,7 @@ function dcdCheck(data: Array<any>){
         <LineChart width={500} height={300} data={data}>
             <Tooltip />
             <XAxis dataKey="label"/>
-            <YAxis/>
+            <YAxis domain={['auto', 'auto']} />
             <Line type="monotone" dataKey="data" stroke="red" />
         </LineChart>
     </>
@@ -69,7 +69,7 @@ function dataCheck(data: Array<any>,dataKey: string){
         <LineChart width={500} height={300} data={data}>
             <Tooltip />
             <XAxis dataKey="label"/>
-            <YAxis/>
+            <YAxis domain={['auto', 'auto']} />
             <Line type="monotone" dataKey={dataKey} stroke="red" />
         </LineChart>
     </>
