@@ -121,7 +121,7 @@ function Search(){
   return (
     <>
       <div className="input-group mb-3">
-        <input id="search" type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" onChange={onChange}></input>
+        <input id="search" type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
       <h2 className='search-target'>'{q}'의 검색결과</h2>
