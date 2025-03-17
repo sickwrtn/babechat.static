@@ -74,12 +74,18 @@ function Search(){
   function registEvent(characterId: string){
     fetch(`https://babe-api.fastwrtn.com/regist?charId=${characterId}`,)
       .then(res => res.json())
-      .then(()=>{alert("등록되었습니다.")});
+      .then((data: any)=>{
+        if (data.result != "FAIL") {
+          alert("등록되었습니다.")
+          window.location.reload();
+        }
+        else {alert(data.data)};
+      });
   }
-
   function okEvent(characterId: string){
     window.location.href = `/statistics/${characterId}`
   }
+
 
 
   function Check(character: any){
@@ -118,7 +124,7 @@ function Search(){
         <input id="search" type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" onChange={onChange}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
-      <h2 className='search-target'>{q}의 검색결과</h2>
+      <h2 className='search-target'>'{q}'의 검색결과</h2>
       <div className="row" id="character">
         {characterData.map((character: any)=>Check(character))}
       </div>

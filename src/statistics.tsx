@@ -20,6 +20,13 @@ interface reponse<T>{
     data: T
 }
 
+const formatYAxis = (tick: number): string => {
+    if (tick >= 1000) {
+      return `${tick / 1000}k`;
+    }
+    return String(tick);
+};
+
 function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=> number){
     var result: Array<{label: string; data: number}> = [];
     var i = 0;
@@ -36,6 +43,7 @@ function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=
     return result;
 }
 
+
 function dcdCheck(data: Array<any>,color: string){
     if (!data || data.length === 0) {
         return (
@@ -50,8 +58,8 @@ function dcdCheck(data: Array<any>,color: string){
             <LineChart data={data}>
                 <Tooltip />
                 <XAxis dataKey="label"/>
-                <YAxis domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey="data" stroke={color} />
+                <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
+                <Line type="monotone" dataKey="data" stroke={color} dot={false}/>
             </LineChart>
         </ResponsiveContainer>
     </>
@@ -72,8 +80,30 @@ function dataCheck(data: Array<any>,dataKey: string, color: string){
             <LineChart data={data}>
                 <Tooltip />
                 <XAxis dataKey="label"/>
-                <YAxis domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey={dataKey} stroke={color} />
+                <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
+                <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
+            </LineChart>
+        </ResponsiveContainer>
+    </>
+        )
+}
+
+function dataTopCheck(data: Array<any>,dataKey: string, color: string){
+    if (!data || data.length === 0) {
+        return (
+        <>
+            <div>데이터가 없습니다. 10분마다 추가됩니다.</div>
+        </>
+    );
+    }
+    return (
+    <>
+        <ResponsiveContainer height={300} width="100%">
+            <LineChart data={data}>
+                <Tooltip />
+                <XAxis dataKey="label"/>
+                <YAxis tickFormatter={formatYAxis} domain={[0, 1]} />
+                <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
             </LineChart>
         </ResponsiveContainer>
     </>
@@ -82,6 +112,7 @@ function dataCheck(data: Array<any>,dataKey: string, color: string){
 
 function Statistics() {
     const [data,setData] = useState(Array<dataSet>);
+    const [name,setName] = useState("");
     const params = useParams();
     useEffect(()=>{
         document.getElementById("logo")?.addEventListener('click',()=>{
@@ -90,12 +121,24 @@ function Statistics() {
         fetch(`https://babe-api.fastwrtn.com/character?charId=${params.charId}`)
         .then(res => res.json())
         .then((data: reponse<dataz>) => {
+            setName(data.data.name);
             setData(data.data.datas);
         })
     },[]);
     return (
     <>
+        <h2 className='search-target'>'{name}'의 통계 결과</h2>
         <div>
+            <fieldset className="d-flex border p-3">
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">실시간 노출 여부(0: 노출 1: 미노출)</legend>
+                    {dataTopCheck(data,"isTopActive","blue")}
+                </div>
+                <div className='graph-size'>
+                    <legend className="h5 mb-3">신작 노출 여부(0: 노출 1: 미노출)</legend>
+                    {dataTopCheck(data,"isTopNew","blue")}
+                </div>
+            </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수</legend>
