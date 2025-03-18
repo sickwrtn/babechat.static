@@ -6,6 +6,8 @@ function Search(){
   const [query, setquery] = useState('');
   const [characterData, setCharacterData] = useState(Array<any>);
   const characterDataRef = useRef(characterData);
+  const [unSafe,setUnSafe] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     characterDataRef.current = characterData; // 상태 업데이트 시 ref 업데이트
   }, [characterData]);
@@ -86,14 +88,24 @@ function Search(){
     window.location.href = `/statistics/${characterId}`
   }
 
-
+  function unSafeEvent(){
+    setModalOpen(true);
+  }
 
   function Check(character: any){
     if(character.log){
       return (
       <>
         <div className="card card-size border-success" id={character.id}>
-          <img src={character.mainImage} className="card-img-top card-img-extra" alt="..."></img>
+          <div className="soso">
+              {(character.isAdult && !unSafe) &&
+              <>
+                <img src={character.mainImage} className="card-img-top card-img-extra blur" onClick={unSafeEvent} alt="..."></img>
+                <img className="overlay-svg" src="https://py27ckpypvqi2sq0.public.blob.vercel-storage.com/assets/svgs/unsafe.svg" alt="Your SVG Image"></img>
+              </>}
+              {(!character.isAdult || unSafe) &&
+              <img src={character.mainImage} className="card-img-top card-img-extra" alt="..."></img>}
+          </div>
           <div className="card-body">
             <h5 className="card-title">{character.name}</h5>
             <p className="card-text">{character.description}</p>
@@ -107,7 +119,15 @@ function Search(){
       return (
         <>
           <div className="card card-size border-danger" id={character.id}>
-            <img src={character.mainImage} className="card-img-top card-img-extra" alt="..."></img>
+            <div className="soso">
+              {(character.isAdult && !unSafe) &&
+              <>
+                <img src={character.mainImage} className="card-img-top card-img-extra blur" onClick={unSafeEvent} alt="..."></img>
+                <img className="overlay-svg" src="https://py27ckpypvqi2sq0.public.blob.vercel-storage.com/assets/svgs/unsafe.svg" alt="Your SVG Image"></img>
+              </>}
+              {(!character.isAdult || unSafe) &&
+              <img src={character.mainImage} className="card-img-top card-img-extra" alt="..."></img>}
+            </div>
             <div className="card-body">
               <h5 className="card-title">{character.name}</h5>
               <p className="card-text">{character.description}</p>
@@ -128,6 +148,21 @@ function Search(){
       <div className="row" id="character">
         {characterData.map((character: any)=>Check(character))}
       </div>
+      {
+        modalOpen &&
+        <div className={'modal-container'}>
+          <div className={'modal-content'}>
+            <h3 className='modal-h2'>Are you 18 years of age or older?</h3>
+            <p className='modal-p'>you must be 18 years or older and agree to our Underage Policy to access and use this website. By clicking Congfirm below, you certify that you are 19 years or older and that you accept our Underage Policy.</p> 
+            <button className={'btn btn-success btn-modal-yes'} onClick={() => {setUnSafe(true); setModalOpen(false)}}>
+              네
+            </button>
+            <button className={'btn btn-danger btn-modal-no'} onClick={() => setModalOpen(false)}>
+              아니오
+            </button>
+          </div>
+        </div>
+      }
     </>
   )
 }
