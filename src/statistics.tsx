@@ -136,7 +136,7 @@ function Statistics() {
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">신작 노출 여부(0: 노출 1: 미노출)</legend>
-                    {dataTopCheck(data,"isTopNew","blue")}
+                    <p>추가 예정</p>
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
