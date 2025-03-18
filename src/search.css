@@ -86,8 +86,8 @@
   
 .modal-content {
     background-color: #ffffff;
-    width: 17%;
-    height: 27%;
+    width: 260px;
+    height: 200px;
     padding: 15px;
     border-radius: .5rem;
 }
