@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './search.css'
+import './main.css'
 function Index(){
     const [query, setquery] = useState('');
     function onChange(event: any){								

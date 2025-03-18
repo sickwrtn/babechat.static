@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import './search.css'
+import './main.css'
 import { Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react';
 

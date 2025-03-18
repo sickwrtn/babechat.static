@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import './search.css'
+import './main.css'
 import { useSearchParams } from 'react-router-dom';
 
 function Search(){
