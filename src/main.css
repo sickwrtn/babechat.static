@@ -130,6 +130,10 @@
     margin: 10%;
 }
 
+#logo{
+    display: none;
+}
+
 h1, footer{
     color: rgb(246 55 90);
 }
@@ -141,6 +145,20 @@ footer{
     background-color: #f0f0f0;
     padding: 10px;
     text-align: center;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+}
+
+.wrapper-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
 }
 
 h1 {
