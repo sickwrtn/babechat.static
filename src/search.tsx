@@ -8,6 +8,13 @@ function Search(){
   const characterDataRef = useRef(characterData);
   const [unSafe,setUnSafe] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  if (!localStorage.getItem("searchData")){
+    localStorage.setItem("searchData",JSON.stringify([]));
+  }
+  if (JSON.parse(localStorage.getItem("searchData") as string)){
+    const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
+    localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
+  }
   useEffect(() => {
     characterDataRef.current = characterData; // 상태 업데이트 시 ref 업데이트
   }, [characterData]);
@@ -18,6 +25,9 @@ function Search(){
   }
 
   function searchEvent(query: string){
+    const searchData = JSON.parse(localStorage.getItem("searchData") as string);
+    searchData.push(query);
+    localStorage.setItem("searchData",JSON.stringify(searchData));
     window.location.href = `/search?q=${query}`;
   }
 
@@ -144,6 +154,16 @@ function Search(){
         <input id="search" type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
+      {(JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
+        <div style={{display:"flex"}}>
+          <p style={{marginRight:"10px"}}>최근검색 : </p>
+          {
+          JSON.parse(localStorage.getItem("searchData") as string).reverse().map((i: string) => (
+            <p style={{marginRight:"10px", cursor : "pointer"}} onClick={()=>{
+              window.location.href = `/search?q=${i}`;
+            }}>#{i}</p>
+          ))}
+        </div>}
       <h2 className='search-target'>'{q}'의 검색결과</h2>
       <div className="row" id="character">
         {characterData.map((character: any)=>Check(character))}

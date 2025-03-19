@@ -14,7 +14,7 @@
     </div>
     <div id="main">
       <div style="display: flex;">
-        <h1 id="logo">
+        <h1 id="logo" style="cursor: pointer;">
           <img alt="logo" width="40" height="30" src="https://py27ckpypvqi2sq0.public.blob.vercel-storage.com/assets/svgs/babechat.svg" style="color: transparent;">
           BabeChat Journal
         </h1>
@@ -27,7 +27,6 @@
     </footer>
     <script>
       if (document.location.pathname != "/"){
-        console.log(document.location);
         const footer = document.getElementById("footer");
         footer.style.display = "block";
       }
