@@ -91,15 +91,15 @@
 }
 
 #time-bar {
-    position: fixed; /* 상단 고정 */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 8%;
-    background-color: #f0f0f0; /* 배경색 */
+    background-color: #f0f0f0;
     padding: 10px;
     text-align: center;
-    z-index: 1000; /* 다른 요소보다 위에 표시 */
+    z-index: 1000; 
 }
   
 .modal-content {
@@ -126,21 +126,32 @@
     right: 10%;
 }
 
-
-
-body{
+#main{
     margin: 10%;
+}
+
+h1, footer{
+    color: rgb(246 55 90);
+}
+
+footer{
+    bottom: 0;
+    width: 100%;
+    height: 8%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
 }
 
 h1 {
     margin-bottom: 2%;
-    color: rgb(246 55 90);
     font-weight: 700;
 }
 
 fieldset{
     width: 100%;
 }
+
 
 @media (max-width: 768px) {
     .d-flex{

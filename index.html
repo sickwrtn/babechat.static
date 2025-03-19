@@ -12,15 +12,25 @@
     <div id="time-bar">
       <h1 id="time">다음 데이터 갱신까지 </h1>
     </div>
-    <div style="display: flex;">
-      <h1 id="logo">
-        <img alt="logo" width="40" height="30" src="https://py27ckpypvqi2sq0.public.blob.vercel-storage.com/assets/svgs/babechat.svg" style="color: transparent;">
-        BetterBabe Journal
-      </h1>
+    <div id="main">
+      <div style="display: flex;">
+        <h1 id="logo">
+          <img alt="logo" width="40" height="30" src="https://py27ckpypvqi2sq0.public.blob.vercel-storage.com/assets/svgs/babechat.svg" style="color: transparent;">
+          BabeChat Journal
+        </h1>
+      </div>
+      <div id="search"></div>
+      <div id="result"></div>
     </div>
-    <div id="search"></div>
-    <div id="result"></div>
+    <footer style="display: none;" id="footer">
+      <p>&copy; BabeChat Journal Made By Sillo(병자)</p>
+    </footer>
     <script>
+      if (document.location.pathname != "/"){
+        console.log(document.location);
+        const footer = document.getElementById("footer");
+        footer.style.display = "block";
+      }
       const timeL = document.getElementById('time');
       if (timeL != null){
         var initTime = timeL.textContent;

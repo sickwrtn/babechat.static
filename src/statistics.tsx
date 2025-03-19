@@ -59,7 +59,7 @@ function dcdCheck(data: Array<any>,color: string){
                 <Tooltip />
                 <XAxis dataKey="label"/>
                 <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey="data" stroke={color} dot={false}/>
+                <Line type="monotone" dataKey="data" stroke={color} strokeWidth={2} dot={false}/>
             </LineChart>
         </ResponsiveContainer>
     </>
@@ -81,7 +81,7 @@ function dataCheck(data: Array<any>,dataKey: string, color: string){
                 <Tooltip />
                 <XAxis dataKey="label"/>
                 <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
+                <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
             </LineChart>
         </ResponsiveContainer>
     </>
@@ -103,7 +103,7 @@ function dataTopCheck(data: Array<any>,dataKey: string, color: string){
                 <Tooltip />
                 <XAxis dataKey="label"/>
                 <YAxis tickFormatter={formatYAxis} domain={[0, 1]} />
-                <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
+                <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
             </LineChart>
         </ResponsiveContainer>
     </>
@@ -166,13 +166,13 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">댓글수</legend>
-                    {dataCheck(data,"commentCount","yellow")}
+                    {dataCheck(data,"commentCount","purple")}
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 증가량</legend>
                     {dcdCheck(dcd(data,(i,j)=>{
                         return i[j+1].commentCount - i[j].commentCount;
-                    }),"yellow")}
+                    }),"purple")}
                 </div>
             </fieldset>
         </div>
