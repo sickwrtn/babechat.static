@@ -176,6 +176,9 @@ function Statistics() {
                 </div>
             </fieldset>
         </div>
+        <div className="wrapper">
+            <h1 className='wrapper-in'>패치내역 : 노출 범위 정상화 및 기존 노출 여부 기록에서 순위 기록으로 변경</h1>
+        </div>
     </>
     )
 }
