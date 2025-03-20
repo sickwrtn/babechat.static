@@ -131,11 +131,11 @@ function Statistics() {
         <div>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">실시간 노출 여부(isTopActive : 순위)</legend>
+                    <legend className="h5 mb-3">실시간 순위 기록(isTopActive : 순위)</legend>
                     {dataTopCheck(data,"isTopActive","blue")}
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">신작 노출 여부(isTopNew : 순위)</legend>
+                    <legend className="h5 mb-3">신작 순위 기록(isTopNew : 순위)</legend>
                     <p>추가 예정</p>
                 </div>
             </fieldset>
