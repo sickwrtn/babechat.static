@@ -102,7 +102,7 @@ function dataTopCheck(data: Array<any>,dataKey: string, color: string){
             <LineChart data={data}>
                 <Tooltip />
                 <XAxis dataKey="label"/>
-                <YAxis tickFormatter={formatYAxis} domain={[0, 1]} />
+                <YAxis tickFormatter={formatYAxis} domain={[1, 100]} reversed={true}/>
                 <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
             </LineChart>
         </ResponsiveContainer>
@@ -131,11 +131,11 @@ function Statistics() {
         <div>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">실시간 노출 여부(1: 노출 0: 미노출)</legend>
+                    <legend className="h5 mb-3">실시간 노출 여부(isTopActive : 순위)</legend>
                     {dataTopCheck(data,"isTopActive","blue")}
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">신작 노출 여부(1: 노출 0: 미노출)</legend>
+                    <legend className="h5 mb-3">신작 노출 여부(isTopNew : 순위)</legend>
                     <p>추가 예정</p>
                 </div>
             </fieldset>
