@@ -96,13 +96,39 @@ function dataTopCheck(data: Array<any>,dataKey: string, color: string){
         </>
     );
     }
+    var data = data.map(i=>{
+        if (i.isTopActive == null){
+            i.isTopActive = 101;
+        }
+        return {
+            label : i.label,
+            chatCount: i.chatCount,
+            likeCount : i.likeCount,
+            commentCount : i.commentCount,
+            isTopActive : i. isTopActive
+        } as any
+    })
+
+    // Y축 틱 포맷터
+    const tickFormatter = (value : any) => {
+        return value < 100 ? value : '100+';
+    };
+    const tooltipFormatter = (value : any, name : any) => {
+        if (name === 'isTopActive' && value === 101) {
+          return ['100+', name]; // "99+" 문자열 표시
+        }
+        return [value, name]; // 나머지 값은 그대로 표시
+    };
+
+    const yTicks = [0, 20, 40, 60, 80, 99, 101];
+
     return (
     <>
         <ResponsiveContainer height={300} width="100%">
             <LineChart data={data}>
-                <Tooltip />
-                <XAxis dataKey="label"/>
-                <YAxis tickFormatter={formatYAxis} domain={[1, 100]} reversed={true}/>
+                <Tooltip formatter={tooltipFormatter} />
+                <XAxis dataKey="label" />
+                <YAxis ticks={yTicks} tickFormatter={tickFormatter} domain={[1, 100]} reversed={true}/>
                 <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
             </LineChart>
         </ResponsiveContainer>
