@@ -20,6 +20,32 @@ interface reponse<T>{
     data: T
 }
 
+function filterDataByPeriod(data : any, period : '1d' | '7d' | '30d' | 'all') {
+    const now = new Date();
+    let startDate;
+  
+    switch (period) {
+      case '1d': // 1일
+        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        break;
+      case '7d': // 7일
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d': // 30일
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case 'all': // 전체 기간
+        return data;
+      default:
+        return data;
+    }
+  
+    return data.filter((item: any) => {
+      const itemDate = new Date(item.label);
+      return itemDate >= startDate;
+    });
+}
+
 const formatYAxis = (tick: number): string => {
     if (tick >= 1000) {
       return `${tick / 1000}k`;
@@ -139,6 +165,7 @@ function dataTopCheck(data: Array<any>,dataKey: string, color: string){
 function Statistics() {
     const [data,setData] = useState(Array<dataSet>);
     const [name,setName] = useState("");
+    const [period,setPeriod] = useState("7d" as '1d' | '7d' | '30d' | 'all');
     const params = useParams();
     useEffect(()=>{
         document.getElementById("logo")?.addEventListener('click',()=>{
@@ -151,14 +178,25 @@ function Statistics() {
             setData(data.data.datas);
         })
     },[]);
+    const onChangeSelect = (e: any) => {
+        setPeriod(e.target.value);
+    }
     return (
     <>
-        <h2 className='search-target'>'{name}'의 통계 결과</h2>
+        <div className = "wr-m">
+            <h2 className='search-target'>'{name}'의 통계 결과</h2>
+            <select name="period" id="period" className="p-3" onChange={onChangeSelect}>
+                <option value="1d">1일</option>
+                <option value="7d" selected>7일</option>
+                <option value="30d">30일</option>
+                <option value="all">전체기간</option>
+            </select>
+        </div>
         <div>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록(isTopActive : 순위)</legend>
-                    {dataTopCheck(data,"isTopActive","blue")}
+                    {dataTopCheck(filterDataByPeriod(data, period),"isTopActive","blue")}
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">신작 순위 기록(isTopNew : 순위)</legend>
@@ -168,7 +206,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수</legend>
-                    {dataCheck(data,"chatCount","blue")}
+                    {dataCheck(filterDataByPeriod(data, period),"chatCount","blue")}
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 채팅수 증가량</legend>
@@ -180,7 +218,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">좋아요수</legend>
-                    {dataCheck(data,"likeCount","red")}
+                    {dataCheck(filterDataByPeriod(data, period),"likeCount","red")}
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
@@ -192,7 +230,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">댓글수</legend>
-                    {dataCheck(data,"commentCount","purple")}
+                    {dataCheck(filterDataByPeriod(data, period),"commentCount","purple")}
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 증가량</legend>

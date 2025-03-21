@@ -168,6 +168,12 @@ fieldset{
     width: 100%;
 }
 
+#period {
+    float: right;
+    border: 0px;
+    font-size: 20px;
+}
+
 
 @media (max-width: 768px) {
     .d-flex{
