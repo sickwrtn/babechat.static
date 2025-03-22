@@ -8,7 +8,7 @@ function App() {
     return (
         <Router>
             <Routes>
-            <Route path="/" element={<Index/>} />
+                <Route path="/" element={<Index/>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/statistics/:charId" element={<Statistics />} />
                 <Route path="/*" element={<Error />}></Route>

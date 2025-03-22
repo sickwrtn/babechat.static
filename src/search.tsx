@@ -3,10 +3,15 @@ import './main.css'
 import { useSearchParams } from 'react-router-dom';
 
 function Search(){
+  //검색할 쿼리
   const [query, setquery] = useState('');
+  //로드된 캐릭터들
   const [characterData, setCharacterData] = useState(Array<any>);
+  //characterData Ref
   const characterDataRef = useRef(characterData);
+  //현재 Safe 상태인지 unSafe 상태인지
   const [unSafe,setUnSafe] = useState(false);
+  //모달 오픈 여부
   const [modalOpen, setModalOpen] = useState(false);
   if (!localStorage.getItem("searchData")){
     localStorage.setItem("searchData",JSON.stringify([]));
@@ -31,6 +36,7 @@ function Search(){
     window.location.href = `/search?q=${query}`;
   }
 
+  //로드 추가
   function loadMore(data: any){
     let wait = setInterval(()=>{
       if (data.data,length == 0){
@@ -83,6 +89,7 @@ function Search(){
       });
   },[]);
   
+  //캐릭터 등록 이벤트
   function registEvent(characterId: string){
     fetch(`https://babe-api.fastwrtn.com/regist?charId=${characterId}`,)
       .then(res => res.json())
@@ -94,15 +101,19 @@ function Search(){
         else {alert(data.data)};
       });
   }
+
+  //통계 확인 이벤트
   function okEvent(characterId: string){
     window.location.href = `/statistics/${characterId}`
   }
 
+  //언세이프화 이벤트
   function unSafeEvent(){
     setModalOpen(true);
   }
 
-  function Check(character: any){
+  //캐릭터 카드 생성
+  function CreateCharacterCard({character}:{character:any}){
     if(character.log){
       return (
       <>
@@ -166,18 +177,19 @@ function Search(){
         </div>}
       <h2 className='search-target'>'{q}'의 검색결과</h2>
       <div className="row" id="character">
-        {characterData.map((character: any)=>Check(character))}
+        {characterData.map((character: any)=>
+          <CreateCharacterCard character={character}/>)}
       </div>
       {
         modalOpen &&
-        <div className={'modal-container'}>
-          <div className={'modal-content'}>
+        <div className='modal-container'>
+          <div className='modal-content'>
             <h3 className='modal-h2'>Are you 18 years of age or older?</h3>
             <p className='modal-p'>you must be 18 years or older and agree to our Underage Policy to access and use this website. By clicking Congfirm below, you certify that you are 19 years or older and that you accept our Underage Policy.</p> 
-            <button className={'btn btn-success btn-modal-yes'} onClick={() => {setUnSafe(true); setModalOpen(false)}}>
+            <button className='btn btn-success btn-modal-yes' onClick={() => {setUnSafe(true); setModalOpen(false)}}>
               네
             </button>
-            <button className={'btn btn-danger btn-modal-no'} onClick={() => setModalOpen(false)}>
+            <button className='btn btn-danger btn-modal-no' onClick={() => setModalOpen(false)}>
               아니오
             </button>
           </div>

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import './main.css'
-import { Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react';
+import { DataGraph, DataTopGraph, DcdGraph } from './dataAnal';
 
 interface dataSet{
     label: string;
@@ -20,6 +20,7 @@ interface reponse<T>{
     data: T
 }
 
+//주기 필터
 function filterDataByPeriod(data : any, period : '1d' | '7d' | '30d' | 'all') {
     const now = new Date();
     let startDate;
@@ -46,13 +47,7 @@ function filterDataByPeriod(data : any, period : '1d' | '7d' | '30d' | 'all') {
     });
 }
 
-const formatYAxis = (tick: number): string => {
-    if (tick >= 1000) {
-      return `${tick / 1000}k`;
-    }
-    return String(tick);
-};
-
+//하루 증가량 계산
 function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=> number){
     var result: Array<{label: string; data: number}> = [];
     var i = 0;
@@ -69,103 +64,14 @@ function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=
     return result;
 }
 
-
-function dcdCheck(data: Array<any>,color: string){
-    if (!data || data.length === 0) {
-        return (
-        <>
-            <div>데이터가 없습니다. 1일 이상 지나야 추가됩니다.</div>
-        </>
-    );
-    }
-    return (
-    <>
-        <ResponsiveContainer height={300} width="100%">
-            <LineChart data={data}>
-                <Tooltip />
-                <XAxis dataKey="label"/>
-                <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey="data" stroke={color} strokeWidth={2} dot={false}/>
-            </LineChart>
-        </ResponsiveContainer>
-    </>
-        )
-}
-
-function dataCheck(data: Array<any>,dataKey: string, color: string){
-    if (!data || data.length === 0) {
-        return (
-        <>
-            <div>데이터가 없습니다. 10분마다 추가됩니다.</div>
-        </>
-    );
-    }
-    return (
-    <>
-        <ResponsiveContainer height={300} width="100%">
-            <LineChart data={data}>
-                <Tooltip />
-                <XAxis dataKey="label"/>
-                <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
-                <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
-            </LineChart>
-        </ResponsiveContainer>
-    </>
-        )
-}
-
-function dataTopCheck(data: Array<any>,dataKey: string, color: string){
-    if (!data || data.length === 0) {
-        return (
-        <>
-            <div>데이터가 없습니다. 10분마다 추가됩니다.</div>
-        </>
-    );
-    }
-    var data = data.map(i=>{
-        if (i.isTopActive == null){
-            i.isTopActive = 101;
-        }
-        return {
-            label : i.label,
-            chatCount: i.chatCount,
-            likeCount : i.likeCount,
-            commentCount : i.commentCount,
-            isTopActive : i. isTopActive
-        } as any
-    })
-
-    // Y축 틱 포맷터
-    const tickFormatter = (value : any) => {
-        return value < 100 ? value : '100+';
-    };
-    const tooltipFormatter = (value : any, name : any) => {
-        if (name === 'isTopActive' && value === 101) {
-          return ['100+', name]; // "99+" 문자열 표시
-        }
-        return [value, name]; // 나머지 값은 그대로 표시
-    };
-
-    const yTicks = [0, 20, 40, 60, 80, 99, 101];
-
-    return (
-    <>
-        <ResponsiveContainer height={300} width="100%">
-            <LineChart data={data}>
-                <Tooltip formatter={tooltipFormatter} />
-                <XAxis dataKey="label" />
-                <YAxis ticks={yTicks} tickFormatter={tickFormatter} domain={[1, 100]} reversed={true}/>
-                <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
-            </LineChart>
-        </ResponsiveContainer>
-    </>
-        )
-}
-
 function Statistics() {
+    //load된 캐릭터 데이터
     const [data,setData] = useState(Array<dataSet>);
+    //캐릭터 이름
     const [name,setName] = useState("");
+    //현재 선택된 주기
     const [period,setPeriod] = useState("7d" as '1d' | '7d' | '30d' | 'all');
+    //params
     const params = useParams();
     useEffect(()=>{
         document.getElementById("logo")?.addEventListener('click',()=>{
@@ -196,7 +102,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록(isTopActive : 순위)</legend>
-                    {dataTopCheck(filterDataByPeriod(data, period),"isTopActive","blue")}
+                    <DataTopGraph data={filterDataByPeriod(data, period)} dataKey='isTopActive' color='blue'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">신작 순위 기록(isTopNew : 순위)</legend>
@@ -206,37 +112,31 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수</legend>
-                    {dataCheck(filterDataByPeriod(data, period),"chatCount","blue")}
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='chatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 채팅수 증가량</legend>
-                    {dcdCheck(dcd(data,(i,j)=>{
-                        return i[j+1].chatCount - i[j].chatCount;
-                    }),"blue")}
+                    <DcdGraph data={dcd(data,(i,j)=>i[j+1].chatCount - i[j].chatCount)} color='blue'/>
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">좋아요수</legend>
-                    {dataCheck(filterDataByPeriod(data, period),"likeCount","red")}
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='likeCount' color='red'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
-                    {dcdCheck(dcd(data,(i,j)=>{
-                        return i[j+1].likeCount - i[j].likeCount;
-                    }),"red")}
+                    <DcdGraph data={dcd(data,(i,j)=>i[j+1].likeCount - i[j].likeCount)} color='red'/>
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">댓글수</legend>
-                    {dataCheck(filterDataByPeriod(data, period),"commentCount","purple")}
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='commentCount' color='purple'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 증가량</legend>
-                    {dcdCheck(dcd(data,(i,j)=>{
-                        return i[j+1].commentCount - i[j].commentCount;
-                    }),"purple")}
+                    <DcdGraph data={dcd(data,(i,j)=>i[j+1].commentCount - i[j].commentCount)} color='purple' />
                 </div>
             </fieldset>
         </div>

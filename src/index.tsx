@@ -14,7 +14,9 @@ export const getCookie = (name: string) => {
 
 
 function Index(){
+    //검색 쿼리
     const [query, setquery] = useState('');
+    //추적중인 캐릭터수
     const [count, setCount] = useState(0);
     useEffect(()=>{
       fetch("https://babe-api.fastwrtn.com/count")
@@ -54,7 +56,7 @@ function Index(){
           ))}
         </div>}
         <div className="wrapper">
-            <p className='wrapper-in IP'>현재 추적중인 캐릭터 수 : {count}</p>
+            <p className='wrapper-in IP'>등록된 캐릭터 수 : {count}</p>
         </div>
       </>)
 }
