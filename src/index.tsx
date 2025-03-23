@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './main.css'
 import { Cookies } from 'react-cookie';
 
@@ -16,13 +16,6 @@ export const getCookie = (name: string) => {
 function Index(){
     //검색 쿼리
     const [query, setquery] = useState('');
-    //추적중인 캐릭터수
-    const [count, setCount] = useState(0);
-    useEffect(()=>{
-      fetch("https://babe-api.fastwrtn.com/count")
-        .then(res => res.json())
-        .then(data => setCount(Number(data.data)));
-    },[])
     // 검색 바 참조
     if (!localStorage.getItem("searchData")){
       localStorage.setItem("searchData",JSON.stringify([]));
@@ -56,7 +49,7 @@ function Index(){
           ))}
         </div>}
         <div className="wrapper">
-            <p className='wrapper-in IP'>등록된 캐릭터 수 : {count}</p>
+            <p className='wrapper-in IP' style={{cursor:"pointer"}} onClick={()=>{window.location.href = "/all"}}>총 집계 보기 (클릭)</p>
         </div>
       </>)
 }

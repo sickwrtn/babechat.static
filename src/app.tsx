@@ -3,6 +3,7 @@ import Error from './error';
 import Statistics from './statistics';
 import Search from './search';
 import Index from '.';
+import All from './all'
 
 function App() {
     return (
@@ -11,7 +12,8 @@ function App() {
                 <Route path="/" element={<Index/>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/statistics/:charId" element={<Statistics />} />
-                <Route path="/*" element={<Error />}></Route>
+                <Route path="/all" element={<All />} />
+                <Route path="/*" element={<Error />} />
             </Routes>
         </Router>
     )
