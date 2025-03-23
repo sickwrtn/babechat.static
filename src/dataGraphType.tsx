@@ -13,12 +13,28 @@ const tickFormatter = (value : any) => {
     return value < 100 ? value : '100+';
 };
 
+const tooltipFomatterLocal = (value : number, name : any) => {
+    switch(name){
+        case "chatCount":
+            return [value.toLocaleString(), "채팅수"]
+        case "likeCount":
+            return [value.toLocaleString(), "좋아요수"]
+        case "commentCount":
+            return [value.toLocaleString(), "댓글수"]
+        case "data":
+            return [value.toLocaleString(), "증가량"]
+        case "characterCount":
+            return [value.toLocaleString(), "캐릭터수"]
+    }
+    return [value.toLocaleString(),name]
+}
+
 //tooltip format
 const tooltipFormatter = (value : any, name : any) => {
     if (name === 'isTopActive' && value === 101) {
-      return ['100+', name]; // 
+      return ['100+', "순위"]; // 
     }
-    return [value, name];
+    return [value + "위", "순위"];
 };
 
 //하루 증가량 그래프 컴포넌트
@@ -34,7 +50,7 @@ export function DcdGraph({data,color}:{data:Array<any>,color: string}){
     <>
         <ResponsiveContainer height={300} width="100%">
             <LineChart data={data}>
-                <Tooltip />
+                <Tooltip formatter={tooltipFomatterLocal}/>
                 <XAxis dataKey="label"/>
                 <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
                 <Line type="monotone" dataKey="data" stroke={color} strokeWidth={2} dot={false}/>
@@ -57,7 +73,7 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
     <>
         <ResponsiveContainer height={300} width="100%">
             <LineChart data={data}>
-                <Tooltip />
+                <Tooltip formatter={tooltipFomatterLocal}/>
                 <XAxis dataKey="label"/>
                 <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
                 <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />

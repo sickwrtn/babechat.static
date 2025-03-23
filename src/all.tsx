@@ -116,10 +116,10 @@ function All(){
             </select>
         </div>
         <fieldset className="border p-3">
-            <legend className="h5 mb-3">등록된 캐릭터수 : {characterCount}</legend>
-            <legend className="h5 mb-3">총 채팅수 : {chatCount}</legend>
-            <legend className="h5 mb-3">총 좋아요수 : {likeCount}</legend>
-            <legend className="h5 mb-3">총 댓글수 : {commentCount}</legend>
+            <p className="h5 mb-3">등록된 캐릭터수 : {characterCount.toLocaleString()}</p>
+            <p className="h5 mb-3">총 채팅수 : {chatCount.toLocaleString()}</p>
+            <p className="h5 mb-3">총 좋아요수 : {likeCount.toLocaleString()}</p>
+            <p className="h5 mb-3">총 댓글수 : {commentCount.toLocaleString()}</p>
             <small className='h5 mb-3 text-muted'>등록된 캐릭터들의 총집계 입니다.</small>
         </fieldset>
         <div>
