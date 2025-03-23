@@ -42,7 +42,7 @@ export function DcdGraph({data,color}:{data:Array<any>,color: string}){
     if (!data || data.length === 0) {
         return (
         <>
-            <div>데이터가 없습니다. 1일 이상 지나야 추가됩니다.</div>
+            <div className="no-data">데이터가 없습니다. 1일 이상 지나야 추가됩니다.</div>
         </>
     );
     }
@@ -65,7 +65,7 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
     if (!data || data.length === 0) {
         return (
         <>
-            <div>데이터가 없습니다. 10분마다 추가됩니다.</div>
+            <div className="no-data">데이터가 없습니다. 10분마다 추가됩니다.</div>
         </>
     );
     }
@@ -89,7 +89,7 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<any>,dataKey: stri
     if (!data || data.length === 0) {
         return (
         <>
-            <div>데이터가 없습니다. 10분마다 추가됩니다.</div>
+            <div className="no-data">데이터가 없습니다. 10분마다 추가됩니다.</div>
         </>
     );
     }

@@ -191,6 +191,12 @@ fieldset{
     font-size: 20px;
 }
 
+.no-data {
+    margin-top: 170px;
+    text-align: center;
+    margin-bottom: 146px;
+}
+
 
 @media (max-width: 768px) {
     .d-flex{
