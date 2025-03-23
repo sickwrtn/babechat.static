@@ -64,6 +64,7 @@ function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=
     return result;
 }
 
+/*
 function DataTrans(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=> number){
     var result: Array<{label: string; data: number}> = [];
     for (let index = 0; index < dataSet.length - 1; index++) {
@@ -74,6 +75,7 @@ function DataTrans(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: nu
     }
     return result
 }
+*/
 
 function All(){
     //load된 캐릭터 데이터
@@ -136,7 +138,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 채팅수 증가량(10분)</legend>
-                    <DcdGraph data={DataTrans(filterDataByPeriod(data, period),(data,index)=> data[index+1].chatCount - data[index].chatCount)} color='blue' />
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='nnChatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 채팅수 증가량</legend>
@@ -146,7 +148,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 좋아요수 증가량(10분)</legend>
-                    <DcdGraph data={DataTrans(filterDataByPeriod(data, period),(data,index)=> data[index+1].likeCount - data[index].likeCount)} color='red'/>
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnLikeCount" color='red'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
@@ -156,7 +158,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 댓글수 증가량(10분)</legend>
-                    <DcdGraph data={DataTrans(filterDataByPeriod(data, period),(data,index)=> data[index+1].commentCount - data[index].commentCount)} color='purple'/>
+                    <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnCommentCount" color='purple'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 증가량</legend>
