@@ -120,6 +120,7 @@ function All(){
             <legend className="h5 mb-3">총 채팅수 : {chatCount}</legend>
             <legend className="h5 mb-3">총 좋아요수 : {likeCount}</legend>
             <legend className="h5 mb-3">총 댓글수 : {commentCount}</legend>
+            <small className='h5 mb-3 text-muted'>등록된 캐릭터들의 총집계 입니다.</small>
         </fieldset>
         <div>
             <fieldset className="d-flex border p-3">
