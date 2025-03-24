@@ -2,26 +2,10 @@ import { useParams } from 'react-router-dom';
 import './main.css'
 import { useEffect, useState } from 'react';
 import { DataGraph, DataTopGraph, DcdGraph } from './dataGraphType';
-
-interface dataSet{
-    label: string;
-    chatCount: number;
-    likeCount: number;
-    commentCount: number
-}
-
-interface dataz{
-    name: string;
-    datas: Array<dataSet>;    
-}
-
-interface reponse<T>{
-    result: string;
-    data: T
-}
+import { Character, CharacterData, Reponse } from './interfaces';
 
 //주기 필터
-function filterDataByPeriod(data : any, period : '1d' | '7d' | '30d' | 'all') {
+function filterDataByPeriod<T>(data : Array<T>, period : '1d' | '7d' | '30d' | 'all') {
     const now = new Date();
     let startDate;
   
@@ -48,7 +32,7 @@ function filterDataByPeriod(data : any, period : '1d' | '7d' | '30d' | 'all') {
 }
 
 //하루 증가량 계산
-function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=> number){
+function dcd(dataSet: Array<CharacterData>,func: (data: Array<CharacterData>,index: number)=> number){
     var result: Array<{label: string; data: number}> = [];
     var i = 0;
     for (let index = 0; index < dataSet.length - 1; index++) {
@@ -66,7 +50,7 @@ function dcd(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: number)=
 
 function Statistics() {
     //load된 캐릭터 데이터
-    const [data,setData] = useState(Array<dataSet>);
+    const [data,setData] = useState(Array<CharacterData>);
     //캐릭터 이름
     const [name,setName] = useState("");
     //현재 선택된 주기
@@ -79,7 +63,7 @@ function Statistics() {
         })
         fetch(`https://babe-api.fastwrtn.com/character?charId=${params.charId}`)
         .then(res => res.json())
-        .then((data: reponse<dataz>) => {
+        .then((data: Reponse<Character>) => {
             setName(data.data.name);
             setData(data.data.datas);
         })
@@ -102,7 +86,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록</legend>
-                    <DataTopGraph data={filterDataByPeriod(data, period)} dataKey='isTopActive' color='blue'/>
+                    <DataTopGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='isTopActive' color='blue'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">신작 순위 기록</legend>
@@ -112,7 +96,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='chatCount' color='blue' />
+                    <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='chatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 채팅수 증가량</legend>
@@ -122,7 +106,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">좋아요수</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='likeCount' color='red'/>
+                    <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='likeCount' color='red'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
@@ -132,7 +116,7 @@ function Statistics() {
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">댓글수</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='commentCount' color='purple'/>
+                    <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='commentCount' color='purple'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 증가량</legend>

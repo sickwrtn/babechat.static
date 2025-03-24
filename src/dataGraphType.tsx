@@ -1,4 +1,5 @@
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {CharacterData, CharacterDcdData} from "./interfaces"
 
 //k format
 const formatYAxis = (tick: number): string => {
@@ -25,6 +26,12 @@ const tooltipFomatterLocal = (value : number, name : any) => {
             return [value.toLocaleString(), "증가량"]
         case "characterCount":
             return [value.toLocaleString(), "캐릭터수"]
+        case "nnChatCount":
+            return [value.toLocaleString(), "증가량"]
+        case "nnLikeCount":
+            return [value.toLocaleString(), "증가량"]
+        case "nnCommentCount":
+            return [value.toLocaleString(), "증가량"]
     }
     return [value.toLocaleString(),name]
 }
@@ -38,7 +45,7 @@ const tooltipFormatter = (value : any, name : any) => {
 };
 
 //하루 증가량 그래프 컴포넌트
-export function DcdGraph({data,color}:{data:Array<any>,color: string}){
+export function DcdGraph({data,color}:{data:Array<CharacterDcdData>,color: string}){
     if (!data || data.length === 0) {
         return (
         <>
@@ -67,7 +74,7 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
         <>
             <div className="no-data">데이터가 없습니다. 10분마다 추가됩니다.</div>
         </>
-    );
+        );
     }
     return (
     <>
@@ -75,7 +82,7 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
             <LineChart data={data}>
                 <Tooltip formatter={tooltipFomatterLocal}/>
                 <XAxis dataKey="label"/>
-                <YAxis tickFormatter={formatYAxis} domain={['auto', 'auto']} />
+                <YAxis tickFormatter={formatYAxis} domain={['auto','auto']} />
                 <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
             </LineChart>
         </ResponsiveContainer>
@@ -85,7 +92,7 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
 
 
 //순위 그래프 컴포넌트
-export function DataTopGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,color: string}){
+export function DataTopGraph({data,dataKey,color}:{data:Array<CharacterData>,dataKey: string,color: string}){
     if (!data || data.length === 0) {
         return (
         <>
@@ -93,7 +100,7 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<any>,dataKey: stri
         </>
     );
     }
-    var data = data.map(i=>{
+    var data: Array<CharacterData> = data.map(i=>{
         if (i.isTopActive == null){
             i.isTopActive = 101;
         }
@@ -102,7 +109,8 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<any>,dataKey: stri
             chatCount: i.chatCount,
             likeCount : i.likeCount,
             commentCount : i.commentCount,
-            isTopActive : i. isTopActive
+            isTopActive : i. isTopActive,
+            isTopNew: i.isTopNew
         } as any
     })
 
