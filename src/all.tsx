@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { DataGraph, DcdGraph } from './dataGraphType'
+import { DataGraph, DcdGraph, RankDataGraph } from './dataGraphType'
+import { Response, Rank } from './interfaces'
 import './main.css'
 
 interface dataSet{
@@ -87,6 +88,7 @@ function All(){
     const [chatCount, setChatCount] = useState(0);
     const [likeCount, setLikeCount] = useState(0);
     const [commentCount, setCommentCount] = useState(0);
+    const [rank, setRank] = useState([] as Rank[]);
     useEffect(()=>{
         document.getElementById("logo")?.addEventListener('click',()=>{
             window.location.href = "/";
@@ -102,6 +104,9 @@ function All(){
         fetch(`https://babe-api.fastwrtn.com/count`)
         .then(res => res.json())
         .then((data: reponse<number>) => setCharacterCount(data.data))
+        fetch("https://babe-api.fastwrtn.com/rank")
+            .then(res => res.json())
+            .then((data: Response<Rank[]>) => setRank(data.data))
     },[]);
     const onChangeSelect = (e: any) => {
         setPeriod(e.target.value);
@@ -165,6 +170,13 @@ function All(){
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].commentCount - i[j].commentCount)} color='purple' />
                 </div>
             </fieldset>
+            <fieldset className="border p-3">
+                <div>
+                    <legend className="h5 mb-3">총 댓글수 증가량(10분)</legend>
+                    <RankDataGraph data={rank}></RankDataGraph>
+                </div>
+            </fieldset>
+
         </div>
     </>
     )

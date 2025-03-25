@@ -130,6 +130,22 @@
     margin: 10%;
 }
 
+.sidebar-wrapper {
+    position: absolute;
+    right: 0;
+    margin-right: 5%;
+    width: 20%;
+}
+
+.sidebar-text {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-name {
+    margin-left: 30px;
+}
+
 h1, footer{
     color: rgb(246 55 90);
 }
@@ -144,7 +160,6 @@ footer{
 }
 
 .wrapper {
-    display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 150px;
@@ -159,21 +174,6 @@ footer{
 
 .IP{
     font-size: 25px !important;
-}
-
-p {
-    white-space: nowrap; /* 줄바꿈 방지 */
-}
-
-p span {
-    display: inline-block; /* 너비 설정 가능하도록 변경 */
-    width: 150px; /* 숫자 영역 너비 고정 */
-    text-align: right; /* 숫자 오른쪽 정렬 */
-}
-
-/* 선택적으로 쉼표 추가 (JavaScript 또는 toLocaleString() 사용) */
-p span.formatted {
-    text-align: right;
 }
 
 h1 {
@@ -204,5 +204,8 @@ fieldset{
     }
     .graph-size{
         width: 100% !important;
+    }
+    .sidebar-wrapper{
+        display: none;
     }
 }

@@ -1,5 +1,6 @@
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import {CharacterData, CharacterDcdData} from "./interfaces"
+import {CharacterData, CharacterDcdData, Rank, RankData} from "./interfaces"
+import chroma from 'chroma-js';
 
 //k format
 const formatYAxis = (tick: number): string => {
@@ -37,12 +38,14 @@ const tooltipFomatterLocal = (value : number, name : any) => {
 }
 
 //tooltip format
-const tooltipFormatter = (value : any, name : any) => {
+const tooltipFormatterTop = (value : any, name : any) => {
     if (name === 'isTopActive' && value === 101) {
       return ['100+', "순위"]; // 
     }
     return [value + "위", "순위"];
 };
+
+const tooltipFormatterRank = (value : any, name : any) => [value + "위", name];
 
 //하루 증가량 그래프 컴포넌트
 export function DcdGraph({data,color}:{data:Array<CharacterDcdData>,color: string}){
@@ -120,7 +123,7 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<CharacterData>,dat
     <>
         <ResponsiveContainer height={300} width="100%">
             <LineChart data={data}>
-                <Tooltip formatter={tooltipFormatter} />
+                <Tooltip formatter={tooltipFormatterTop} />
                 <XAxis dataKey="label" />
                 <YAxis ticks={yTicks} tickFormatter={tickFormatter} domain={[1, 100]} reversed={true}/>
                 <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} dot={false} />
@@ -128,4 +131,43 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<CharacterData>,dat
         </ResponsiveContainer>
     </>
         )
+}
+
+export function RankDataGraph({data}:{data: Rank[]}){
+    if (!data || data.length === 0) {
+        return (
+        <>
+            <div className="no-data">데이터가 없습니다. 10분마다 추가됩니다.</div>
+        </>
+    );
+    }
+    const reData: Array<any> = [];
+    const nameList: Array<string> = [];
+    data.forEach((i: Rank) => {
+        let m: any = {label:i.label};
+        i.datas.forEach((j: RankData) => {
+            if (!nameList.includes(j.characterId)){
+                nameList.push(j.characterId)
+            }
+            m[j.characterId] = j.rank;
+        })
+        reData.push(m);
+    })
+    const yTicks: number[] = [1,2,3,4,5,6,7,8,9,10];
+    console.log(nameList);
+    const colors = chroma.scale(['#fafa6e', '#0000ff', '#ff0000']).mode('lch').colors(nameList.length); // 색상 범위 조정
+    return (
+        <>
+            <ResponsiveContainer height={500} width="100%">
+                <LineChart data={reData}>
+                    <Tooltip formatter={tooltipFormatterRank} contentStyle={{ backgroundColor: 'white' }}/>
+                    <XAxis dataKey="label"/>
+                    <YAxis ticks={yTicks} domain={[1, 10]} reversed={true}/>
+                    {nameList.map((i, index) => (
+                        <Line type="monotone" dataKey={i} stroke={colors[index]} strokeWidth={5} dot={false} />
+                    ))}
+                </LineChart>
+            </ResponsiveContainer>
+        </>
+    )
 }

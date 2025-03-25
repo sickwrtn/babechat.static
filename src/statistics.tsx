@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import './main.css'
 import { useEffect, useState } from 'react';
 import { DataGraph, DataTopGraph, DcdGraph } from './dataGraphType';
-import { Character, CharacterData, Reponse } from './interfaces';
+import { Character, CharacterData, Response } from './interfaces';
 
 //주기 필터
 function filterDataByPeriod<T>(data : Array<T>, period : '1d' | '7d' | '30d' | 'all') {
@@ -63,7 +63,7 @@ function Statistics() {
         })
         fetch(`https://babe-api.fastwrtn.com/character?charId=${params.charId}`)
         .then(res => res.json())
-        .then((data: Reponse<Character>) => {
+        .then((data: Response<Character>) => {
             setName(data.data.name);
             setData(data.data.datas);
         })
