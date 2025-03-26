@@ -83,7 +83,7 @@ function Index(){
         </div>}
         <div className="sidebar-wrapper border">
           <div className='p-2'>
-            <h4 className="sidebar-text">TOP10 점유율</h4>
+            <h4 className="sidebar-text">일일 TOP10 점유율</h4>
             {rank.map((i:[string,number]) => (
               <>
                 <div className='sidebar-list d-flex'>
