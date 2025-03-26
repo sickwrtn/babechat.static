@@ -99,7 +99,7 @@ function Statistics() {
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='chatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 채팅수 증가량</legend>
+                    <legend className="h5 mb-3">일일 채팅수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].chatCount - i[j].chatCount)} color='blue'/>
                 </div>
             </fieldset>
@@ -109,7 +109,7 @@ function Statistics() {
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='likeCount' color='red'/>
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
+                    <legend className="h5 mb-3">일일 좋아요수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].likeCount - i[j].likeCount)} color='red'/>
                 </div>
             </fieldset>
@@ -119,7 +119,7 @@ function Statistics() {
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='commentCount' color='purple'/>
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 댓글수 증가량</legend>
+                    <legend className="h5 mb-3">일일 댓글수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].commentCount - i[j].commentCount)} color='purple' />
                 </div>
             </fieldset>

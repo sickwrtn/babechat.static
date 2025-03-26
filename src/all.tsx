@@ -136,43 +136,43 @@ function All(){
                     <DataGraph data={filterDataByPeriod(data, period)} dataKey='characterCount' color='blue'/>
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 등록된 캐릭터수 증가량</legend>
+                    <legend className="h5 mb-3">일일 등록된 캐릭터수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].characterCount - i[j].characterCount)} color='blue' />
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">총 채팅수 증가량(10분)</legend>
+                    <legend className="h5 mb-3">총 채팅수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data, period)} dataKey='nnChatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 채팅수 증가량</legend>
+                    <legend className="h5 mb-3">일일 채팅수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].chatCount - i[j].chatCount)} color='blue'/>
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">총 좋아요수 증가량(10분)</legend>
+                    <legend className="h5 mb-3">총 좋아요수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnLikeCount" color='red'/>
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 좋아요수 증가량</legend>
+                    <legend className="h5 mb-3">일일 좋아요수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].likeCount - i[j].likeCount)} color='red'/>
                 </div>
             </fieldset>
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">총 댓글수 증가량(10분)</legend>
+                    <legend className="h5 mb-3">총 댓글수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnCommentCount" color='purple'/>
                 </div>
                 <div className='graph-size'>
-                    <legend className="h5 mb-3">일일 댓글수 증가량</legend>
+                    <legend className="h5 mb-3">일일 댓글수 변동량</legend>
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].commentCount - i[j].commentCount)} color='purple' />
                 </div>
             </fieldset>
             <fieldset className="border p-3">
                 <div>
-                    <legend className="h5 mb-3">총 댓글수 증가량(10분)</legend>
+                    <legend className="h5 mb-3">TOP 10 기록 (10분)</legend>
                     <RankDataGraph data={rank}></RankDataGraph>
                 </div>
             </fieldset>

@@ -24,15 +24,15 @@ const tooltipFomatterLocal = (value : number, name : any) => {
         case "commentCount":
             return [value.toLocaleString(), "댓글수"]
         case "data":
-            return [value.toLocaleString(), "증가량"]
+            return [value.toLocaleString(), "변동량"]
         case "characterCount":
             return [value.toLocaleString(), "캐릭터수"]
         case "nnChatCount":
-            return [value.toLocaleString(), "증가량"]
+            return [value.toLocaleString(), "변동량"]
         case "nnLikeCount":
-            return [value.toLocaleString(), "증가량"]
+            return [value.toLocaleString(), "변동량"]
         case "nnCommentCount":
-            return [value.toLocaleString(), "증가량"]
+            return [value.toLocaleString(), "변동량"]
     }
     return [value.toLocaleString(),name]
 }
