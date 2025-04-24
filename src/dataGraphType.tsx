@@ -1,6 +1,8 @@
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import {CharacterData, CharacterDcdData, Rank, RankData} from "./interfaces"
 import chroma from 'chroma-js';
+import { setStrict } from "./strict";
+import { JSX } from "react/jsx-runtime";
 
 //k format
 const formatYAxis = (tick: number): string => {
@@ -48,7 +50,7 @@ const tooltipFormatterTop = (value : any, name : any) => {
 const tooltipFormatterRank = (value : any, name : any) => [value + "위", name];
 
 //하루 증가량 그래프 컴포넌트
-export function DcdGraph({data,color}:{data:Array<CharacterDcdData>,color: string}){
+export const DcdGraph = setStrict(({data,color}:{data:Array<CharacterDcdData>,color: string}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -68,10 +70,10 @@ export function DcdGraph({data,color}:{data:Array<CharacterDcdData>,color: strin
         </ResponsiveContainer>
     </>
         )
-}
+});
 
 //데이터 그래프 컴포넌트
-export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,color: string}){
+export const DataGraph = setStrict(({data,dataKey,color}:{data:Array<any>,dataKey: string,color: string}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -91,11 +93,11 @@ export function DataGraph({data,dataKey,color}:{data:Array<any>,dataKey: string,
         </ResponsiveContainer>
     </>
         )
-}
+});
 
 
 //순위 그래프 컴포넌트
-export function DataTopGraph({data,dataKey,color}:{data:Array<CharacterData>,dataKey: string,color: string}){
+export const DataTopGraph = setStrict(({data,dataKey,color}:{data:Array<CharacterData>,dataKey: string,color: string}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -131,9 +133,9 @@ export function DataTopGraph({data,dataKey,color}:{data:Array<CharacterData>,dat
         </ResponsiveContainer>
     </>
         )
-}
+})
 
-export function RankDataGraph({data}:{data: Rank[]}){
+export const RankDataGraph = setStrict(({data}:{data: Rank[]}) => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -154,7 +156,6 @@ export function RankDataGraph({data}:{data: Rank[]}){
         reData.push(m);
     })
     const yTicks: number[] = [1,2,3,4,5,6,7,8,9,10];
-    console.log(nameList);
     const colors = chroma.scale(['#fafa6e', '#0000ff', '#ff0000']).mode('lch').colors(nameList.length); // 색상 범위 조정
     return (
         <>
@@ -170,4 +171,4 @@ export function RankDataGraph({data}:{data: Rank[]}){
             </ResponsiveContainer>
         </>
     )
-}
+})

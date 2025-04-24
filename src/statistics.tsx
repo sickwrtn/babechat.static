@@ -3,6 +3,7 @@ import './main.css'
 import { useEffect, useState } from 'react';
 import { DataGraph, DataTopGraph, DcdGraph } from './dataGraphType';
 import { Character, CharacterData, Response } from './interfaces';
+import { setStrict } from './strict';
 
 //주기 필터
 function filterDataByPeriod<T>(data : Array<T>, period : '1d' | '7d' | '30d' | 'all') {
@@ -32,7 +33,7 @@ function filterDataByPeriod<T>(data : Array<T>, period : '1d' | '7d' | '30d' | '
 }
 
 //하루 증가량 계산
-function dcd(dataSet: Array<CharacterData>,func: (data: Array<CharacterData>,index: number)=> number){
+const dcd = setStrict((dataSet: Array<CharacterData>,func: (data: Array<CharacterData>,index: number)=> number): any => {
     var result: Array<{label: string; data: number}> = [];
     var i = 0;
     for (let index = 0; index < dataSet.length - 1; index++) {
@@ -46,7 +47,7 @@ function dcd(dataSet: Array<CharacterData>,func: (data: Array<CharacterData>,ind
         i += func(dataSet,index);
     }
     return result;
-}
+})
 
 function Statistics() {
     //load된 캐릭터 데이터

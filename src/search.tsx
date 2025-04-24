@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { JSX, useEffect, useRef, useState } from 'react'
 import './main.css'
 import { useSearchParams } from 'react-router-dom';
+import {  setStrict } from './strict';
 
-function Search(){
+const Search = setStrict((): JSX.Element =>{
   //검색할 쿼리
   const [query, setquery] = useState('');
   //로드된 캐릭터들
@@ -13,36 +14,42 @@ function Search(){
   const [unSafe,setUnSafe] = useState(false);
   //모달 오픈 여부
   const [modalOpen, setModalOpen] = useState(false);
-  if (!localStorage.getItem("searchData")){
-    localStorage.setItem("searchData",JSON.stringify([]));
-  }
-  if (JSON.parse(localStorage.getItem("searchData") as string)){
-    const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
-    localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
-  }
-  useEffect(() => {
+  setStrict(()=>{
+    if (!localStorage.getItem("searchData")){
+      localStorage.setItem("searchData",JSON.stringify([]));
+    }
+    if (JSON.parse(localStorage.getItem("searchData") as string)){
+      const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
+      localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
+    }
+  })()
+
+  useEffect(setStrict(() => {
     characterDataRef.current = characterData; // 상태 업데이트 시 ref 업데이트
-  }, [characterData]);
+  }), [characterData]);
+  
   const [params] = useSearchParams();
   const q = params.get('q') as string;
-  function onChange(event: any){								
+  function onChange(event: any){
       setquery(event.target.value)							
   }
 
-  function searchEvent(query: string){
+  const searchEvent = setStrict((query: string): void => {
     const searchData = JSON.parse(localStorage.getItem("searchData") as string);
     searchData.push(query);
     localStorage.setItem("searchData",JSON.stringify(searchData));
     window.location.href = `/search?q=${query}`;
-  }
+  })
 
-  //로드 추가
-  function loadMore(data: any){
-    let wait = setInterval(()=>{
-      if (data.data,length == 0){
+
+  useEffect(setStrict(()=>{
+    //로드 추가
+  const loadMore = (data: any):void => {
+    let wait = setInterval(() => {
+      if (data.data.length == 0){
         clearInterval(wait);
       }
-      const target = document.getElementById(data.data[data.data.length - 1].id)
+      const target = document.getElementById(data.data[data.data.length - 1].id);
       if (target != null){
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
@@ -76,8 +83,6 @@ function Search(){
       }
     })
   }
-
-  useEffect(()=>{
     document.getElementById("logo")?.addEventListener('click',()=>{
       window.location.href = "/";
     })
@@ -87,10 +92,10 @@ function Search(){
         setCharacterData(data.data);
         loadMore(data);
       });
-  },[]);
+  }),[]);
   
   //캐릭터 등록 이벤트
-  function registEvent(characterId: string){
+  const registEvent = setStrict((characterId: string):void => {
     fetch(`https://babe-api.fastwrtn.com/regist?charId=${characterId}`,)
       .then(res => res.json())
       .then((data: any)=>{
@@ -100,20 +105,20 @@ function Search(){
         }
         else {alert(data.data)};
       });
-  }
+  })
 
   //통계 확인 이벤트
-  function okEvent(characterId: string){
+  const okEvent = setStrict((characterId: string):void => {
     window.location.href = `/statistics/${characterId}`
-  }
+  })
 
   //언세이프화 이벤트
-  function unSafeEvent(){
+  const unSafeEvent = setStrict(():void => {
     setModalOpen(true);
-  }
+  })
 
   //캐릭터 카드 생성
-  function CreateCharacterCard({character}:{character:any}){
+  const CreateCharacterCard = setStrict(({character}:{character:any}): JSX.Element => {
     if(character.log){
       return (
       <>
@@ -158,7 +163,8 @@ function Search(){
         </>
       )
     }
-  }
+  })
+
   return (
     <>
       <div className="input-group mb-3">
@@ -197,6 +203,6 @@ function Search(){
       }
     </>
   )
-}
+})
 
 export default Search
