@@ -80,7 +80,7 @@ function DataTrans(dataSet: Array<dataSet>,func: (data: Array<dataSet>,index: nu
 
 function All(){
     //load된 캐릭터 데이터
-    const [data,setData] = useState([] as Array<dataSet>);
+    const [data,setData] = useState([] as Array<any>);
     //현재 선택된 주기
     const [period,setPeriod] = useState("7d" as '1d' | '7d' | '30d' | 'all');
 
@@ -143,7 +143,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 채팅수 변동량(10분)</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey='nnChatCount' color='blue' />
+                    <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnChatCount: data.nnChatCount > 0 ? data.nnChatCount : null})), period)} dataKey='nnChatCount' color='blue' />
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 채팅수 변동량</legend>
@@ -153,7 +153,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 좋아요수 변동량(10분)</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnLikeCount" color='red'/>
+                    <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnLikeCount: data.nnLikeCount > 0 ? data.nnLikeCount : null})), period)} dataKey="nnLikeCount" color='red'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 좋아요수 변동량</legend>
@@ -163,7 +163,7 @@ function All(){
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 댓글수 변동량(10분)</legend>
-                    <DataGraph data={filterDataByPeriod(data, period)} dataKey="nnCommentCount" color='purple'/>
+                    <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnCommentCount: data.nnCommentCount > 0 ? data.nnCommentCount : null})), period)} dataKey="nnCommentCount" color='purple'/>
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">일일 댓글수 변동량</legend>
