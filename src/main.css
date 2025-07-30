@@ -147,7 +147,7 @@
 }
 
 h1, footer{
-    color: rgb(246 55 90);
+    color: rgb(246 55 90) !important;
 }
 
 footer{

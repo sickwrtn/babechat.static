@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import './main.css'
 import { useEffect, useState } from 'react';
-import { DataGraph, DataTopGraph, DcdGraph } from './dataGraphType';
+import { DataGraph, DataPlotGraph, DataTopGraph, DcdGraph } from './dataGraphType';
 import { Character, CharacterData, Response } from './interfaces';
 import { setStrict } from './strict';
 
@@ -84,6 +84,7 @@ function Statistics() {
             </select>
         </div>
         <div>
+            <DataPlotGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey={["likeCount","chatCount"]} />
             <fieldset className="d-flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록</legend>

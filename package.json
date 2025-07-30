@@ -10,12 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "chroma-js": "^3.1.2",
+    "katex": "^0.16.22",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
     "react-cookie": "^8.0.1",
     "react-dom": "^19.0.0",
+    "react-katex": "^3.1.0",
     "react-router-dom": "^7.3.0",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "simple-statistics": "^7.8.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -23,6 +28,7 @@
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-katex": "^3.0.4",
     "@types/regression": "^2.0.6",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",

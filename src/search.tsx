@@ -168,7 +168,11 @@ const Search = setStrict((): JSX.Element =>{
   return (
     <>
       <div className="input-group mb-3">
-        <input id="search" type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange}></input>
+        <input id="search" type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange} onKeyDown={(e)=>{
+                                if (e.key == "Enter"){
+                                    searchEvent(query);
+                                }
+                            }}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
       {(JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&

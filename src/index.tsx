@@ -3,7 +3,7 @@ import './main.css'
 import { RankData, Rank , Response } from './interfaces';
 import {setStrict, setStrictAsync} from './strict'
 import { JSX } from 'react/jsx-dev-runtime';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const dataTrans = setStrictAsync(async (data : Response<Rank[]>): Promise<Array<[string,number]>> => {
   const rank: any = {};
@@ -77,7 +77,11 @@ const Index = setStrict((): JSX.Element => {
 
     return (<>
         <div className="input-group mb-3">
-          <input type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange}></input>
+          <input type="text" className="form-control" placeholder="캐릭터 이름" aria-label="캐릭터 이름" aria-describedby="button-addon2" onChange={onChange} onKeyDown={(e)=>{
+                                if (e.key == "Enter"){
+                                    okEvent(query);
+                                }
+                            }}></input>
           <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={()=>okEvent(query)}>검색</button>
         </div>
         { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
