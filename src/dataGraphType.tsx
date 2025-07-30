@@ -172,7 +172,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                         <LineChart data={rRate}>
                             <Tooltip/>
                             <XAxis dataKey="x" domain={["auto","auto"]} />
-                            <YAxis dataKey="y" domain={["auto", "auto"]} />
+                            <YAxis tickFormatter={formatYAxis} dataKey="y" domain={["auto", "auto"]} />
                             {isRateRegression && 
                                 <Line name="선형회귀" type="monotone" dataKey="r" strokeWidth={1} dot={false} />
                             }
@@ -186,7 +186,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                         <ComposedChart>
                             <CartesianGrid />
                             <XAxis type="number" dataKey={dataKey[0]} name={dataKey[0]} domain={['auto', 'auto']} />
-                            <YAxis type="number" dataKey={dataKey[1]} name={dataKey[1]} domain={['auto', 'auto']} />
+                            <YAxis tickFormatter={formatYAxis} type="number" dataKey={dataKey[1]} name={dataKey[1]} domain={['auto', 'auto']} />
                             <Tooltip/>
                             <Scatter name="캐릭터 통계" data={data} fill="#8884d8"/>
                             { isRegression &&
