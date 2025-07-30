@@ -146,16 +146,16 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                 <div className='graph-size'>
                     <legend className="h5 mb-3">캐릭터 통계 평가</legend>
                     <p>
-                        평점 : {rate[rate.length - 1].y.toFixed(3)}
+                        평점 : <InlineMath math={rate[rate.length - 1].y.toFixed(3)}/>
                     </p>
                     <p>
-                        성장성 : {((Math.atan(rate_slope) / (Math.PI / 2)) * 100).toFixed(3)}%
+                        성장성 : <InlineMath math={((Math.atan(rate_slope) / (Math.PI / 2)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p>
-                        정체도 : {((1 - rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}%
+                        정체도 : <InlineMath math={((1 - rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p>
-                        정체도(보조) : {((1 - rSquared(dataMap,regressionF)) * 100).toFixed(3)}% 
+                        정체도(보조) : <InlineMath math={((1 - rSquared(dataMap,regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p className="text-muted">
                         *평점 : 높을수록 좋음<br/>
@@ -218,7 +218,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                         y절편 : <InlineMath math={String(rate_intercept)}/>
                     </p>
                     <p>
-                        R-Squard : {((rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}%
+                        R-Squard : <InlineMath math={((rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <Form.Check // prettier-ignore
                         type="switch"
@@ -240,7 +240,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                         y절편 : <InlineMath math={String(intercept)}/>
                     </p>
                     <p>
-                        R-Squard : {((rSquared(dataMap,regressionF)) * 100).toFixed(3)}%
+                        R-Squard : <InlineMath math={((rSquared(dataMap,regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <Form.Check // prettier-ignore
                         type="switch"
