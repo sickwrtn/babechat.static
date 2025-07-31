@@ -100,7 +100,7 @@ export const DataGraph = setStrict(({data,dataKey,color}:{data:Array<any>,dataKe
         )
 });
 
-export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"] }): JSX.Element => {
+export const DataPlotGraph = ({ data, dataKey, average }: { data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"], average: Array<number>}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -108,6 +108,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
         </>
         );
     }
+
     const xAxisKey = dataKey[0];
     const yAxisKey = dataKey[1];
     const [isRegression,setIsRegression] = useState(true);
@@ -139,6 +140,8 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
     const rRate = rate.map((e)=>({x: e.x, y: e.y, r:rate_regressionF(e.x)}))
 
     //section 3
+    const av: Array<number> = []
+    average.map((i)=>{if (i >= Math.round(rate[rate.length - 1].y)) return av.push(i); else {return 0}});
 
     return (
         <>
@@ -146,7 +149,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                 <div className='graph-size'>
                     <legend className="h5 mb-3">캐릭터 통계 평가</legend>
                     <p>
-                        평점 : <InlineMath math={rate[rate.length - 1].y.toFixed(3)}/>
+                        평점 : <InlineMath math={rate[rate.length - 1].y.toFixed(3)}/> (상위 <InlineMath math={((av.length / average.length) * 100).toFixed(1)}/><InlineMath math="\%"/>)
                     </p>
                     <p>
                         성장성 : <InlineMath math={((Math.atan(rate_slope) / (Math.PI / 2)) * 100).toFixed(3)}/><InlineMath math="\%"/>

@@ -52,6 +52,8 @@ const dcd = setStrict((dataSet: Array<CharacterData>,func: (data: Array<Characte
 function Statistics() {
     //load된 캐릭터 데이터
     const [data,setData] = useState(Array<CharacterData>);
+    //load된 평균용 데이터
+    const [average, setAverage] = useState(Array<number>);
     //캐릭터 이름
     const [name,setName] = useState("");
     //현재 선택된 주기
@@ -67,6 +69,11 @@ function Statistics() {
         .then((data: Response<Character>) => {
             setName(data.data.name);
             setData(data.data.datas);
+        })
+        fetch(`https://babe-api.fastwrtn.com/average`)
+        .then(res => res.json())
+        .then((data: Response<Array<number>>) => {
+            setAverage(data.data);
         })
     },[]);
     const onChangeSelect = (e: any) => {
@@ -84,7 +91,7 @@ function Statistics() {
             </select>
         </div>
         <div>
-            <DataPlotGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey={["likeCount","chatCount"]} />
+            <DataPlotGraph data={filterDataByPeriod<CharacterData>(data, period)} average={average} dataKey={["likeCount","chatCount"]} />
             <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록</legend>
