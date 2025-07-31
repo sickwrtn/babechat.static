@@ -1,4 +1,4 @@
-import { CartesianGrid, ComposedChart, Line, LineChart, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, ComposedChart, Line, LineChart, ReferenceLine, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from "recharts";
 import {CharacterData, CharacterDcdData, Rank, RankData} from "./interfaces"
 import chroma from 'chroma-js';
 import { setStrict } from "./strict";
@@ -40,6 +40,8 @@ const tooltipFomatterLocal = (value : number, name : any) => {
             return [value.toLocaleString(), "변동량"]
         case "nnCommentCount":
             return [value.toLocaleString(), "변동량"]
+        case "y":
+            return [value.toLocaleString(), "평점"]
     }
     return [value.toLocaleString(),name]
 }
@@ -100,7 +102,7 @@ export const DataGraph = setStrict(({data,dataKey,color}:{data:Array<any>,dataKe
         )
 });
 
-export const DataPlotGraph = ({ data, dataKey, average }: { data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"], average: Array<number>}): JSX.Element => {
+export const DataPlotGraph = ({ data, dataKey, average, average2, point}: {point: any,average2:Array<any>, data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"], average: Array<number>}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -166,6 +168,20 @@ export const DataPlotGraph = ({ data, dataKey, average }: { data: Array<Characte
                         *정체도 : 낮을수록 좋음 (0~10%면 좋음 10~20% 보통 20~100% 나쁨)<br/>
                         *추천 : 7일 주기로 보는게 가장 정확합니다. 정체도 높으면 지속가능성이 낮아집니다.
                     </p>
+                </div>
+            </fieldset>
+            <fieldset className="border p-3">
+                <div>
+                    <legend className="h5 mb-3">평점 분포</legend>
+                    <ResponsiveContainer height={300} width="100%">
+                        <LineChart data={average2}>
+                            <Tooltip formatter={tooltipFomatterLocal}/>
+                            <XAxis dataKey="label"/>
+                            <YAxis tickFormatter={formatYAxis} domain={['auto','auto']} />
+                            <Line type="monotone" dataKey="y" stroke="green" strokeWidth={2} dot={false} />
+                            <ReferenceLine x={Math.round(point)} label={{ value: "상위 "+ ((av.length / average.length) * 100).toFixed(1) + "%", position: 'insideTopLeft', fill: 'red', fontSize: 20 }} stroke="red"/>
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
             </fieldset>
             <fieldset className="flex border p-3">

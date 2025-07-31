@@ -84,6 +84,8 @@ function All(){
     //현재 선택된 주기
     const [period,setPeriod] = useState("7d" as '1d' | '7d' | '30d' | 'all');
 
+    const [average, setAverage] = useState(Array<{label: number,y: number}>);
+
     const [characterCount, setCharacterCount] = useState(0);
     const [chatCount, setChatCount] = useState(0);
     const [likeCount, setLikeCount] = useState(0);
@@ -107,6 +109,17 @@ function All(){
         fetch("https://babe-api.fastwrtn.com/rank")
             .then(res => res.json())
             .then((data: Response<Rank[]>) => setRank(data.data))
+        fetch(`https://babe-api.fastwrtn.com/average`)
+        .then(res => res.json())
+        .then((data: Response<Array<number>>) => {
+            let s: Array<number> = [];
+            s.length = Math.max(...data.data) + 1;
+            s.fill(0)
+            data.data.map((e)=>{
+                s[e] += 1;
+            })
+            setAverage(s.map((e,i)=>({label:i,y:e})));
+        })
     },[]);
     const onChangeSelect = (e: any) => {
         setPeriod(e.target.value);
@@ -176,7 +189,12 @@ function All(){
                     <RankDataGraph data={rank}></RankDataGraph>
                 </div>
             </fieldset>
-
+            <fieldset className="border p-3">
+                <div>
+                    <legend className="h5 mb-3">평점 분포</legend>
+                    <DataGraph data={average} dataKey='y' color='green'/>
+                </div>
+            </fieldset>
         </div>
     </>
     )
