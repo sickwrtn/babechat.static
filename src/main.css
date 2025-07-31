@@ -197,9 +197,12 @@ fieldset{
     margin-bottom: 146px;
 }
 
+.flex {
+    display: flex !important;
+}
 
 @media (max-width: 768px) {
-    .d-flex{
+    .flex{
         display: inline !important;
     }
     .graph-size{

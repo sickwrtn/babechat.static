@@ -130,7 +130,7 @@ function All(){
             <small className='h5 mb-3 text-muted'>등록된 캐릭터들의 총집계 입니다.</small>
         </fieldset>
         <div>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">등록된 캐릭터수</legend>
                     <DataGraph data={filterDataByPeriod(data, period)} dataKey='characterCount' color='blue'/>
@@ -140,7 +140,7 @@ function All(){
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].characterCount - i[j].characterCount)} color='blue' />
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 채팅수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnChatCount: data.nnChatCount > 0 ? data.nnChatCount : null})), period)} dataKey='nnChatCount' color='blue' />
@@ -150,7 +150,7 @@ function All(){
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].chatCount - i[j].chatCount)} color='blue'/>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 좋아요수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnLikeCount: data.nnLikeCount > 0 ? data.nnLikeCount : null})), period)} dataKey="nnLikeCount" color='red'/>
@@ -160,7 +160,7 @@ function All(){
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].likeCount - i[j].likeCount)} color='red'/>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">총 댓글수 변동량(10분)</legend>
                     <DataGraph data={filterDataByPeriod(data.map((data)=>({...data, nnCommentCount: data.nnCommentCount > 0 ? data.nnCommentCount : null})), period)} dataKey="nnCommentCount" color='purple'/>

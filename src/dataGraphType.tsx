@@ -142,7 +142,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
 
     return (
         <>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">캐릭터 통계 평가</legend>
                     <p>
@@ -165,7 +165,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                     </p>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수/좋아요수</legend>
                     <ResponsiveContainer height={300} width="100%">
@@ -205,7 +205,7 @@ export const DataPlotGraph = ({ data, dataKey }: { data: Array<CharacterData>, d
                     </ResponsiveContainer>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">선형회귀 분석 (채팅수/좋아요수)</legend>
                     <p>

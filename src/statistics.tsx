@@ -85,7 +85,7 @@ function Statistics() {
         </div>
         <div>
             <DataPlotGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey={["likeCount","chatCount"]} />
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">실시간 순위 기록</legend>
                     <DataTopGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='isTopActive' color='blue'/>
@@ -95,7 +95,7 @@ function Statistics() {
                     <p>추가 예정</p>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">채팅수</legend>
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='chatCount' color='blue' />
@@ -105,7 +105,7 @@ function Statistics() {
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].chatCount - i[j].chatCount)} color='blue'/>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">좋아요수</legend>
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='likeCount' color='red'/>
@@ -115,7 +115,7 @@ function Statistics() {
                     <DcdGraph data={dcd(data,(i,j)=>i[j+1].likeCount - i[j].likeCount)} color='red'/>
                 </div>
             </fieldset>
-            <fieldset className="d-flex border p-3">
+            <fieldset className="flex border p-3">
                 <div className='graph-size'>
                     <legend className="h5 mb-3">댓글수</legend>
                     <DataGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='commentCount' color='purple'/>
