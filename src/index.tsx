@@ -98,7 +98,7 @@ const Index = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,is
             ))}
           </div>}
           <Form.Check // prettier-ignore
-              style={{cursor:"pointer"}}
+              style={{cursor:"default"}}
               type="switch"
               className='mb-3 ms-sm-auto'
               label="다크모드"
