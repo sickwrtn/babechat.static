@@ -86,7 +86,7 @@ const Index = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,is
                             }}></input>
           <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={()=>okEvent(query)}>검색</button>
         </div>
-        <div className='d-sm-flex'>
+        <div className='d-sm-flex overflow-hidden' style={{whiteSpace:"nowrap"}}>
           { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
           <div className='d-flex'>
             <p style={{marginRight:"10px"}}>최근검색 : </p>

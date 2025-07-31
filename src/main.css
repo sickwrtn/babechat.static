@@ -89,14 +89,18 @@
     margin-top: px;
     font-size: 20px;
 }
-#time-bar[data-theme='light'] {
-    background-color: #f0f0f0;
+
+:root[data-bs-theme='light'] {
+    --time-background-color : #f0f0f0;
 }
-#time-bar[data-theme='dark'] {
-    background-color: #1e1e1e;
+
+:root[data-bs-theme='dark'] {
+    --time-background-color : #1e1e1e;
 }
+
 #time-bar {
     position: fixed;
+    background-color: var(--time-background-color);
     top: 0;
     left: 0;
     width: 100%;
