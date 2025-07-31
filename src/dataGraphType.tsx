@@ -155,10 +155,10 @@ export const DataPlotGraph = ({ data, dataKey, average }: { data: Array<Characte
                         성장성 : <InlineMath math={((Math.atan(rate_slope) / (Math.PI / 2)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p>
-                        정체도 : <InlineMath math={((1 - rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
+                        정체도 : <InlineMath math={((1 - rSquared(dataMap,regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p>
-                        정체도(보조) : <InlineMath math={((1 - rSquared(dataMap,regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
+                        정체도(보조) : <InlineMath math={((1 - rSquared(rateMap,rate_regressionF)) * 100).toFixed(3)}/><InlineMath math="\%"/>
                     </p>
                     <p className="text-muted">
                         *평점 : 높을수록 좋음<br/>
