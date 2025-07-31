@@ -48,7 +48,7 @@ const tooltipFomatterLocal = (value : number, name : any) => {
 
 //tooltip format
 const tooltipFormatterTop = (value : any, name : any) => {
-    if (name === 'isTopActive' && value === 101) {
+    if ((name === 'isTopActive' || name === 'isTopNew') && value === 101) {
       return ['100+', "순위"]; // 
     }
     return [value + "위", "순위"];
@@ -286,6 +286,9 @@ export const DataTopGraph = setStrict(({data,dataKey,color}:{data:Array<Characte
     var data: Array<CharacterData> = data.map(i=>{
         if (i.isTopActive == null){
             i.isTopActive = 101;
+        }
+        if (i.isTopNew == null){
+            i.isTopNew = 101;
         }
         return {
             label : i.label,

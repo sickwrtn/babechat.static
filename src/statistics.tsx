@@ -112,7 +112,7 @@ function Statistics() {
                 </div>
                 <div className='graph-size'>
                     <legend className="h5 mb-3">신작 순위 기록</legend>
-                    <p>추가 예정</p>
+                    <DataTopGraph data={filterDataByPeriod<CharacterData>(data, period)} dataKey='isTopNew' color='blue'/>
                 </div>
             </fieldset>
             <fieldset className="flex border p-3">
