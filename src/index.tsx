@@ -4,6 +4,7 @@ import { RankData, Rank , Response } from './interfaces';
 import {setStrict, setStrictAsync} from './strict'
 import { JSX } from 'react/jsx-dev-runtime';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Form } from 'react-bootstrap';
 
 const dataTrans = setStrictAsync(async (data : Response<Rank[]>): Promise<Array<[string,number]>> => {
   const rank: any = {};
@@ -39,8 +40,9 @@ const dataTrans = setStrictAsync(async (data : Response<Rank[]>): Promise<Array<
   return result;
 })
 
-const Index = setStrict((): JSX.Element => {
+const Index = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element => {
     //검색 쿼리
+
     const [query, setquery] = useState('');
 
     const [rank, setRank] = useState([] as Array<[string,number]>);
@@ -84,16 +86,25 @@ const Index = setStrict((): JSX.Element => {
                             }}></input>
           <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={()=>okEvent(query)}>검색</button>
         </div>
-        { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
-        <div style={{display:"flex"}}>
-          <p style={{marginRight:"10px"}}>최근검색 : </p>
-          {
-          JSON.parse(localStorage.getItem("searchData") as string).reverse().map((i: string) => (
-            <p style={{marginRight:"10px", cursor : "pointer"}} onClick={()=>{
-              window.location.href = `/search?q=${i}`;
-            }}>#{i}</p>
-          ))}
-        </div>}
+        <div className='d-sm-flex'>
+          { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
+          <div className='d-flex'>
+            <p style={{marginRight:"10px"}}>최근검색 : </p>
+            {
+            JSON.parse(localStorage.getItem("searchData") as string).reverse().map((i: string) => (
+              <p style={{marginRight:"10px", cursor : "pointer"}} onClick={()=>{
+                window.location.href = `/search?q=${i}`;
+              }}>#{i}</p>
+            ))}
+          </div>}
+          <Form.Check // prettier-ignore
+              type="switch"
+              className='mb-3 ms-sm-auto'
+              label="다크모드"
+              checked={isDarkmode}
+              onChange={isDarkmodeOnChange}
+          />
+        </div>
         <div className="sidebar-wrapper border">
           <div className='p-2'>
             <h4 className="sidebar-text">일일 TOP10 점유율</h4>

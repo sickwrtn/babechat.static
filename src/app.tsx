@@ -4,6 +4,7 @@ import Statistics from './statistics';
 import Search from './search';
 import Index from '.';
 import All from './all'
+import { useEffect, useState } from 'react';
 
 /*
 인생이 tlqkf 억까의 연속이다. 솔직히 개좆같다.
@@ -17,11 +18,39 @@ Cafe24호스팅만 믿고있다. 제발!!
 */
 
 function App() {
+    const [isDarkmode,setIsDarkmode] = useState<boolean>((():boolean =>{
+                if (localStorage.getItem("them") == null){
+                    localStorage.setItem("them","light");
+                    return false
+                }
+                else if (localStorage.getItem("them") == "light"){
+                    return false;
+                }
+                else if (localStorage.getItem("them") == "dark"){
+                    return true;
+                }
+                return false
+            })());
+
+    const isDarkmodeOnChange = (e: any) => setIsDarkmode(e.target.checked);
+
+    useEffect(() => {
+        if (isDarkmode){
+            localStorage.setItem("them","dark");
+            document.documentElement.setAttribute('data-bs-theme', "dark");
+        }
+        else {
+            localStorage.setItem("them","light");
+            document.documentElement.setAttribute('data-bs-theme', "light");
+        }                              
+    }, [isDarkmode]);
+
+    
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Index/>} />
-                <Route path="/search" element={<Search />} />
+                <Route path="/" element={<Index isDarkmode={isDarkmode} isDarkmodeOnChange={isDarkmodeOnChange}/>} />
+                <Route path="/search" element={<Search isDarkmode={isDarkmode} isDarkmodeOnChange={isDarkmodeOnChange}/>} />
                 <Route path="/statistics/:charId" element={<Statistics />} />
                 <Route path="/all" element={<All />} />
                 <Route path="/*" element={<Error />} />

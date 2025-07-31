@@ -2,8 +2,9 @@ import { JSX, useEffect, useRef, useState } from 'react'
 import './main.css'
 import { useSearchParams } from 'react-router-dom';
 import {  setStrict } from './strict';
+import { Form } from 'react-bootstrap';
 
-const Search = setStrict((): JSX.Element =>{
+const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element =>{
   //검색할 쿼리
   const [query, setquery] = useState('');
   //로드된 캐릭터들
@@ -175,16 +176,25 @@ const Search = setStrict((): JSX.Element =>{
                             }}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
-      {(JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
-        <div style={{display:"flex"}}>
-          <p style={{marginRight:"10px"}}>최근검색 : </p>
-          {
-          JSON.parse(localStorage.getItem("searchData") as string).reverse().map((i: string) => (
-            <p style={{marginRight:"10px", cursor : "pointer"}} onClick={()=>{
-              window.location.href = `/search?q=${i}`;
-            }}>#{i}</p>
-          ))}
-        </div>}
+      <div className='d-sm-flex'>
+          { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
+          <div className='d-flex'>
+            <p style={{marginRight:"10px"}}>최근검색 : </p>
+            {
+            JSON.parse(localStorage.getItem("searchData") as string).reverse().map((i: string) => (
+              <p style={{marginRight:"10px", cursor : "pointer"}} onClick={()=>{
+                window.location.href = `/search?q=${i}`;
+              }}>#{i}</p>
+            ))}
+          </div>}
+          <Form.Check // prettier-ignore
+              type="switch"
+              className='mb-3 ms-sm-auto'
+              label="다크모드"
+              checked={isDarkmode}
+              onChange={isDarkmodeOnChange}
+          />
+      </div>
       <h2 className='search-target'>'{q}'의 검색결과</h2>
       <div className="row" id="character">
         {characterData.map((character: any)=>
