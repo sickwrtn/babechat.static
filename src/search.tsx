@@ -1,7 +1,7 @@
 import { JSX, useEffect, useRef, useState } from 'react'
 import './main.css'
 import { useSearchParams } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import { Form, Modal } from 'react-bootstrap';
 
 function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element {
   //검색할 쿼리
@@ -12,8 +12,12 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
   const characterDataRef = useRef(characterData);
   //현재 Safe 상태인지 unSafe 상태인지
   const [unSafe,setUnSafe] = useState(false);
-  //모달 오픈 여부
-  const [modalOpen, setModalOpen] = useState(false);
+  
+  // modal 이 열려있는지
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false); 
+  
   if (!localStorage.getItem("searchData")){
     localStorage.setItem("searchData",JSON.stringify([]));
   }
@@ -51,9 +55,7 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
         if (target != null){
           const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-              // 대상 요소가 화면에 나타났는지 확인
               if (entry.isIntersecting) {
-                // 데이터를 로딩하는 코드를 작성하면 돼요.
                 fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(q)}&sort=popular&limit=10&offset=${characterDataRef.current.length}`)
                   .then(res => res.json())
                   .then((new_data: any)=>{
@@ -70,12 +72,10 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
                     setCharacterData(new_characterData);
                     loadMore(new_data);
                   });
-                // 더 이상 관찰할 필요가 없으면 관찰을 중지
                 observer.unobserve(target);
               }
             });
           });
-          // 대상 요소 관찰 시작
           observer.observe(target);
           clearInterval(wait);
         }
@@ -112,7 +112,7 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
 
   //언세이프화 이벤트
   const unSafeEvent = ():void => {
-    setModalOpen(true);
+    setShow(true)
   }
 
   //캐릭터 카드 생성
@@ -198,19 +198,16 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
           <CreateCharacterCard character={character}/>)}
       </div>
       {
-        modalOpen &&
-        <div className='modal-container'>
-          <div className='modal-content'>
-            <h3 className='modal-h2'>Are you 18 years of age or older?</h3>
-            <p className='modal-p'>you must be 18 years or older and agree to our Underage Policy to access and use this website. By clicking Congfirm below, you certify that you are 19 years or older and that you accept our Underage Policy.</p> 
-            <button className='btn btn-success btn-modal-yes' onClick={() => {setUnSafe(true); setModalOpen(false)}}>
-              네
-            </button>
-            <button className='btn btn-danger btn-modal-no' onClick={() => setModalOpen(false)}>
-              아니오
-            </button>
-          </div>
-        </div>
+        <Modal show={show} onHide={handleClose} size='sm' centered>
+          <h3 className='modal-h2'>Are you 18 years of age or older?</h3>
+          <p className='modal-p'>you must be 18 years or older and agree to our Underage Policy to access and use this website. By clicking Congfirm below, you certify that you are 19 years or older and that you accept our Underage Policy.</p> 
+          <button className='btn btn-success btn-modal-yes' onClick={() => {setUnSafe(true); handleClose()}}>
+            네
+          </button>
+          <button className='btn btn-danger btn-modal-no' onClick={() => handleClose()}>
+            아니오
+          </button>
+        </Modal>
       }
     </>
   )
