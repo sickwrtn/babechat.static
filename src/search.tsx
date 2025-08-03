@@ -1,10 +1,9 @@
 import { JSX, useEffect, useRef, useState } from 'react'
 import './main.css'
 import { useSearchParams } from 'react-router-dom';
-import {  setStrict } from './strict';
 import { Form } from 'react-bootstrap';
 
-const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element =>{
+function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element {
   //검색할 쿼리
   const [query, setquery] = useState('');
   //로드된 캐릭터들
@@ -15,19 +14,17 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
   const [unSafe,setUnSafe] = useState(false);
   //모달 오픈 여부
   const [modalOpen, setModalOpen] = useState(false);
-  setStrict(()=>{
-    if (!localStorage.getItem("searchData")){
-      localStorage.setItem("searchData",JSON.stringify([]));
-    }
-    if (JSON.parse(localStorage.getItem("searchData") as string)){
-      const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
-      localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
-    }
-  })()
+  if (!localStorage.getItem("searchData")){
+    localStorage.setItem("searchData",JSON.stringify([]));
+  }
+  if (JSON.parse(localStorage.getItem("searchData") as string)){
+    const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
+    localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
+  }
 
-  useEffect(setStrict(() => {
+  useEffect(() => {
     characterDataRef.current = characterData; // 상태 업데이트 시 ref 업데이트
-  }), [characterData]);
+  }, [characterData]);
   
   const [params] = useSearchParams();
   const q = params.get('q') as string;
@@ -35,15 +32,15 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
       setquery(event.target.value)							
   }
 
-  const searchEvent = setStrict((query: string): void => {
+  const searchEvent = (query: string): void => {
     const searchData = JSON.parse(localStorage.getItem("searchData") as string);
     searchData.push(query);
     localStorage.setItem("searchData",JSON.stringify(searchData));
     window.location.href = `/search?q=${query}`;
-  })
+  }
 
 
-  useEffect(setStrict(()=>{
+  useEffect(()=>{
     //로드 추가
   const loadMore = (data: any):void => {
     let wait = setInterval(() => {
@@ -93,10 +90,10 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
         setCharacterData(data.data);
         loadMore(data);
       });
-  }),[]);
+  }),[];
   
   //캐릭터 등록 이벤트
-  const registEvent = setStrict((characterId: string):void => {
+  const registEvent = (characterId: string):void => {
     fetch(`https://babe-api.fastwrtn.com/regist?charId=${characterId}`,)
       .then(res => res.json())
       .then((data: any)=>{
@@ -106,20 +103,20 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
         }
         else {alert(data.data)};
       });
-  })
+  }
 
   //통계 확인 이벤트
-  const okEvent = setStrict((characterId: string):void => {
+  const okEvent = (characterId: string):void => {
     window.location.href = `/statistics/${characterId}`
-  })
+  }
 
   //언세이프화 이벤트
-  const unSafeEvent = setStrict(():void => {
+  const unSafeEvent = ():void => {
     setModalOpen(true);
-  })
+  }
 
   //캐릭터 카드 생성
-  const CreateCharacterCard = setStrict(({character}:{character:any}): JSX.Element => {
+  const CreateCharacterCard = ({character}:{character:any}): JSX.Element => {
     if(character.log){
       return (
       <>
@@ -164,7 +161,7 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
         </>
       )
     }
-  })
+  }
 
   return (
     <>
@@ -176,7 +173,7 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
                             }}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
-      <div className='d-sm-flex'>
+      <div className='d-sm-flex overflow-hidden'>
           { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
           <div className='d-flex'>
             <p style={{marginRight:"10px"}}>최근검색 : </p>
@@ -217,6 +214,6 @@ const Search = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,i
       }
     </>
   )
-})
+}
 
 export default Search

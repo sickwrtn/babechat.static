@@ -1,7 +1,6 @@
 import { CartesianGrid, ComposedChart, Line, LineChart, ReferenceLine, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from "recharts";
 import {CharacterData, CharacterDcdData, Rank, RankData} from "./interfaces"
 import chroma from 'chroma-js';
-import { setStrict } from "./strict";
 import { JSX } from "react/jsx-runtime";
 import { linearRegression, rSquared } from "simple-statistics";
 import { InlineMath} from 'react-katex';
@@ -57,7 +56,7 @@ const tooltipFormatterTop = (value : any, name : any) => {
 const tooltipFormatterRank = (value : any, name : any) => [value + "위", name];
 
 //하루 증가량 그래프 컴포넌트
-export const DcdGraph = setStrict(({data,color}:{data:Array<CharacterDcdData>,color: string}): JSX.Element => {
+export function DcdGraph ({data,color}:{data:Array<CharacterDcdData>,color: string}): JSX.Element {
     if (!data || data.length === 0) {
         return (
         <>
@@ -77,10 +76,10 @@ export const DcdGraph = setStrict(({data,color}:{data:Array<CharacterDcdData>,co
         </ResponsiveContainer>
     </>
         )
-});
+};
 
 //데이터 그래프 컴포넌트
-export const DataGraph = setStrict(({data,dataKey,color}:{data:Array<any>,dataKey: string,color: string}): JSX.Element => {
+export function DataGraph ({data,dataKey,color}:{data:Array<any>,dataKey: string,color: string}): JSX.Element {
     if (!data || data.length === 0) {
         return (
         <>
@@ -100,9 +99,9 @@ export const DataGraph = setStrict(({data,dataKey,color}:{data:Array<any>,dataKe
         </ResponsiveContainer>
     </>
         )
-});
+};
 
-export const DataPlotGraph = ({ data, dataKey, average, average2, point}: {point: any,average2:Array<any>, data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"], average: Array<number>}): JSX.Element => {
+export function DataPlotGraph ({ data, dataKey, average, average2, point}: {point: any,average2:Array<any>, data: Array<CharacterData>, dataKey: ["likeCount"|"chatCount"|"commentCount", "likeCount"|"chatCount"|"commentCount"], average: Array<number>}): JSX.Element {
     if (!data || data.length === 0) {
         return (
         <>
@@ -275,7 +274,7 @@ export const DataPlotGraph = ({ data, dataKey, average, average2, point}: {point
 }
 
 //순위 그래프 컴포넌트
-export const DataTopGraph = setStrict(({data,dataKey,color}:{data:Array<CharacterData>,dataKey: string,color: string}): JSX.Element => {
+export const DataTopGraph = ({data,dataKey,color}:{data:Array<CharacterData>,dataKey: string,color: string}): JSX.Element => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -314,9 +313,9 @@ export const DataTopGraph = setStrict(({data,dataKey,color}:{data:Array<Characte
         </ResponsiveContainer>
     </>
         )
-})
+}
 
-export const RankDataGraph = setStrict(({data}:{data: Rank[]}) => {
+export const RankDataGraph = ({data}:{data: Rank[]}) => {
     if (!data || data.length === 0) {
         return (
         <>
@@ -352,4 +351,4 @@ export const RankDataGraph = setStrict(({data}:{data: Rank[]}) => {
             </ResponsiveContainer>
         </>
     )
-})
+}

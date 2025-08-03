@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import './main.css'
 import { RankData, Rank , Response } from './interfaces';
-import {setStrict, setStrictAsync} from './strict'
 import { JSX } from 'react/jsx-dev-runtime';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
 
-const dataTrans = setStrictAsync(async (data : Response<Rank[]>): Promise<Array<[string,number]>> => {
+const dataTrans = async (data : Response<Rank[]>): Promise<Array<[string,number]>> => {
   const rank: any = {};
   for (let index = 1; index < 11; index++) {
     rank[`${index}`] = [];
@@ -38,44 +37,42 @@ const dataTrans = setStrictAsync(async (data : Response<Rank[]>): Promise<Array<
     result.push([i,ReRankTo[i]]);
   })
   return result;
-})
+}
 
-const Index = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element => {
+function Index ({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeOnChange: (e:any)=>void}): JSX.Element {
     //검색 쿼리
 
     const [query, setquery] = useState('');
 
     const [rank, setRank] = useState([] as Array<[string,number]>);
     
-    useEffect(setStrict(()=>{
+    useEffect(()=>{
       fetch("https://babe-api.fastwrtn.com/rank")
         .then(res => res.json())
         .then((data: Response<Rank[]>) => dataTrans(data))
         .then(d => setRank(d!.sort((a: [string,number],b: [string,number]) => b[1] - a[1]).slice(0,10)));
-    }),[])
+    },[])
 
     // 검색 바 참조
-    setStrict(() =>{
-      if (!localStorage.getItem("searchData")){
-        localStorage.setItem("searchData",JSON.stringify([]));
-      }
+    if (!localStorage.getItem("searchData")){
+      localStorage.setItem("searchData",JSON.stringify([]));
+    }
 
-      if (JSON.parse(localStorage.getItem("searchData") as string)){
-        const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
-        localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
-      }
-    })()
+    if (JSON.parse(localStorage.getItem("searchData") as string)){
+      const searchData: Array<string> = JSON.parse(localStorage.getItem("searchData") as string);
+      localStorage.setItem("searchData",JSON.stringify(searchData.reverse().slice(0,10).reverse()));
+    }
 
-    const onChange = setStrict((event: any): void => {
+    const onChange = (event: any): void => {
         setquery(event.target.value)							
-    })
+    }
 
-    const okEvent = setStrict((query: string): void => {
+    const okEvent = (query: string): void => {
         const searchData = JSON.parse(localStorage.getItem("searchData") as string);
         searchData.push(query);
         localStorage.setItem("searchData",JSON.stringify(searchData));
         window.location.href = `/search?q=${query}`;
-    })
+    }
 
     return (<>
         <div className="input-group mb-3">
@@ -123,6 +120,6 @@ const Index = setStrict(({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,is
             <p className='wrapper-in IP' style={{cursor:"pointer"}} onClick={()=>{window.location.href = "/all"}}>총 집계 보기 (클릭)</p>
         </div>
       </>)
-})
+}
 
 export default Index
