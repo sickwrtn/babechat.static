@@ -83,7 +83,7 @@ function Index ({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
                             }}></input>
           <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={()=>okEvent(query)}>검색</button>
         </div>
-        <div className='d-sm-flex overflow-hidden' style={{whiteSpace:"nowrap"}}>
+        <div className='overflow-hidden' style={{whiteSpace:"nowrap"}}>
           { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
           <div className='d-flex'>
             <p style={{marginRight:"10px"}}>최근검색 : </p>
@@ -97,7 +97,7 @@ function Index ({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
           <Form.Check // prettier-ignore
               style={{cursor:"default"}}
               type="switch"
-              className='mb-3 ms-sm-auto'
+              className='mb-3'
               label="다크모드"
               checked={isDarkmode}
               onChange={isDarkmodeOnChange}
