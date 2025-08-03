@@ -42,55 +42,55 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
 
   useEffect(()=>{
     //로드 추가
-  const loadMore = (data: any):void => {
-    let wait = setInterval(() => {
-      if (data.data.length == 0){
-        clearInterval(wait);
-      }
-      const target = document.getElementById(data.data[data.data.length - 1].id);
-      if (target != null){
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            // 대상 요소가 화면에 나타났는지 확인
-            if (entry.isIntersecting) {
-              // 데이터를 로딩하는 코드를 작성하면 돼요.
-              fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(q)}&sort=popular&limit=10&offset=${characterDataRef.current.length}`)
-                .then(res => res.json())
-                .then((new_data: any)=>{
-                  if (data.data.length == 0){
-                    return
-                  }
-                  const new_characterData: any[] = [];
-                  characterDataRef.current.forEach((i: any)=>{
-                    new_characterData.push(i);
-                  })
-                  new_data.data.forEach((i: any) => {
-                    new_characterData.push(i);
+    const loadMore = (data: any):void => {
+      let wait = setInterval(() => {
+        if (data.data.length == 0){
+          clearInterval(wait);
+        }
+        const target = document.getElementById(data.data[data.data.length - 1].id);
+        if (target != null){
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              // 대상 요소가 화면에 나타났는지 확인
+              if (entry.isIntersecting) {
+                // 데이터를 로딩하는 코드를 작성하면 돼요.
+                fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(q)}&sort=popular&limit=10&offset=${characterDataRef.current.length}`)
+                  .then(res => res.json())
+                  .then((new_data: any)=>{
+                    if (data.data.length == 0){
+                      return
+                    }
+                    const new_characterData: any[] = [];
+                    characterDataRef.current.forEach((i: any)=>{
+                      new_characterData.push(i);
+                    })
+                    new_data.data.forEach((i: any) => {
+                      new_characterData.push(i);
+                    });
+                    setCharacterData(new_characterData);
+                    loadMore(new_data);
                   });
-                  setCharacterData(new_characterData);
-                  loadMore(new_data);
-                });
-              // 더 이상 관찰할 필요가 없으면 관찰을 중지
-              observer.unobserve(target);
-            }
+                // 더 이상 관찰할 필요가 없으면 관찰을 중지
+                observer.unobserve(target);
+              }
+            });
           });
+          // 대상 요소 관찰 시작
+          observer.observe(target);
+          clearInterval(wait);
+        }
+      })
+    }
+      document.getElementById("logo")?.addEventListener('click',()=>{
+        window.location.href = "/";
+      })
+      fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(q)}&sort=popular&limit=10&offset=0`)
+        .then(res => res.json())
+        .then((data: any)=>{
+          setCharacterData(data.data);
+          loadMore(data);
         });
-        // 대상 요소 관찰 시작
-        observer.observe(target);
-        clearInterval(wait);
-      }
-    })
-  }
-    document.getElementById("logo")?.addEventListener('click',()=>{
-      window.location.href = "/";
-    })
-    fetch(`https://babe-api.fastwrtn.com/search?q=${encodeURI(q)}&sort=popular&limit=10&offset=0`)
-      .then(res => res.json())
-      .then((data: any)=>{
-        setCharacterData(data.data);
-        loadMore(data);
-      });
-  }),[];
+  },[]);
   
   //캐릭터 등록 이벤트
   const registEvent = (characterId: string):void => {
@@ -173,7 +173,7 @@ function Search({isDarkmode,isDarkmodeOnChange}:{isDarkmode: boolean,isDarkmodeO
                             }}></input>
         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => searchEvent(query)}>검색</button>
       </div>
-      <div className='d-sm-flex overflow-hidden'>
+      <div className='d-sm-flex overflow-hidden' style={{whiteSpace:"nowrap"}}>
           { (JSON.parse(localStorage.getItem("searchData") as string).length > 0) &&
           <div className='d-flex'>
             <p style={{marginRight:"10px"}}>최근검색 : </p>
