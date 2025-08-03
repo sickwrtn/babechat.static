@@ -143,6 +143,8 @@ export function DataPlotGraph ({ data, dataKey, average, average2, point}: {poin
     //section 3
     const av: Array<number> = []
     average.map((i)=>{if (i >= Math.round(rate[rate.length - 1].y)) return av.push(i); else {return 0}});
+    const rate_distribution: {label: number,y: number}[] = [];
+    average2.map((i)=>{if (i.y == 0) return; else {rate_distribution.push(i)}});
 
     return (
         <>
@@ -173,7 +175,7 @@ export function DataPlotGraph ({ data, dataKey, average, average2, point}: {poin
                 <div>
                     <legend className="h5 mb-3">평점 분포</legend>
                     <ResponsiveContainer height={300} width="100%">
-                        <LineChart data={average2}>
+                        <LineChart data={rate_distribution}>
                             <Tooltip formatter={tooltipFomatterLocal}/>
                             <XAxis dataKey="label"/>
                             <YAxis tickFormatter={formatYAxis} domain={['auto','auto']} />
